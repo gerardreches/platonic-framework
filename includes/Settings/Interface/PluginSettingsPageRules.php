@@ -1,10 +1,11 @@
 <?php
 
-namespace Platonic\API;
+namespace Platonic\Api\Settings\Interface;
 
-interface Plugin_Settings_Page_Rules extends Settings_Page_Rules
-{
+interface PluginSettingsPageRules extends SettingsPageRules {
 	public function on_plugin_activation();
+
 	public function on_plugin_deactivation();
+
 	public function on_plugin_uninstall();
 }

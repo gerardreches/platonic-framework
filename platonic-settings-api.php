@@ -1,6 +1,6 @@
 <?php
 /**
- * Platonic Settings API
+ * Platonic SettingsInterface API
  *
  * @package           Platonic\API
  * @author            Gerard Reches
@@ -8,12 +8,12 @@
  * @license           GPL v3.0
  *
  * @wordpress-plugin
- * Plugin Name:       Platonic Settings API
+ * Plugin Name:       Platonic SettingsInterface API
  * Plugin URI:        https://gerardreches.com
- * Description:       WordPress Settings API Framework
+ * Description:       WordPress SettingsInterface API Framework
  * Version:           1.0.0
  * Requires at least: 5.2
- * Requires PHP:      7.0
+ * Requires PHP:      8.0
  * Author:            Gerard Reches
  * Author URI:        https://gerardreches.com
  * Text Domain:       platonic-settings-api
@@ -24,27 +24,22 @@
  */
 
 // Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) )
-{
+if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-// No need to proceed if Platonic already exists.
-if ( class_exists( \Platonic\API\Settings::class ) )
-{
+//No need to proceed if Platonic already exists.
+if ( class_exists( \Platonic\Api\Settings\SettingsInterface::class ) ) {
 	return;
 }
 
-require_once 'settings/interface-settings-rules.php';
-require_once 'settings/interface-settings-page-rules.php';
-require_once 'settings/interface-theme-settings-page-rules.php';
-require_once 'settings/interface-plugin-settings-page-rules.php';
+// This constant can be used if you need to manually load the plugin by using require() or require_once()
+if ( ! defined( 'PLATONIC_SETTINGS_API_PLUGIN_FILE' ) ) {
+	define( 'PLATONIC_SETTINGS_API_PLUGIN_FILE', __FILE__ );
+}
 
-require_once 'settings/trait-settings-menus.php';
-require_once 'settings/trait-settings-fields.php';
-require_once 'settings/trait-settings-sanitization.php';
+if ( ! defined( 'PLATONIC_SETTINGS_API_PLUGIN_BASENAME' ) ) {
+	define( 'PLATONIC_SETTINGS_API_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
+}
 
-require_once 'settings/class-settings.php';
-require_once 'settings/class-theme-settings.php';
-require_once 'settings/class-plugin-settings.php';
-
+require_once( plugin_dir_path(__FILE__) . '/lib/autoload.php');

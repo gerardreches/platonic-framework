@@ -1,0 +1,27 @@
+{
+  "name": "gerardreches/platonic-settings-api",
+  "description": "WordPress Settings API Framework",
+  "type": "library",
+  "keywords": [
+    "WordPress",
+    "Settings",
+    "Options",
+    "Customizer"
+  ],
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "Platonic\\Api\\": "includes/"
+    }
+  },
+  "authors": [
+    {
+      "name": "Gerard Reches",
+      "email": "gerardreches@gmail.com"
+    }
+  ],
+  "config": {
+    "vendor-dir": "lib"
+  },
+  "require": {}
+}
