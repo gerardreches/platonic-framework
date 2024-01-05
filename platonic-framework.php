@@ -33,7 +33,15 @@ if ( class_exists( \Platonic\Framework\Settings\Settings::class ) ) {
 	return;
 }
 
-// This constant can be used if you need to manually load the plugin by using require() or require_once()
+/**
+ * When using the Platonic Framework as a library, if any symlinks exist affecting the framework
+ * then the constant PLATONIC_FRAMEWORK_PLUGIN_DIR must be defined in your plugin or theme using
+ * the right path in order for the framework to enqueue its scripts successfully.
+ */
+if ( ! defined( 'PLATONIC_FRAMEWORK_PLUGIN_DIR' ) ) {
+	define( 'PLATONIC_FRAMEWORK_PLUGIN_DIR', __DIR__ );
+}
+
 if ( ! defined( 'PLATONIC_FRAMEWORK_PLUGIN_FILE' ) ) {
 	define( 'PLATONIC_FRAMEWORK_PLUGIN_FILE', __FILE__ );
 }
