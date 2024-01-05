@@ -2,7 +2,7 @@
 
 namespace Platonic\Framework\Settings\Interface;
 
-interface PluginSettingsPageRules extends SettingsPageRules {
+interface Plugin_Settings_Page_Rules extends Settings_Page_Rules {
 	public function on_plugin_activation();
 
 	public function on_plugin_deactivation();

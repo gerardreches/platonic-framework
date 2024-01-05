@@ -2,12 +2,12 @@
 
 namespace Platonic\Framework\Settings;
 
-use Platonic\Framework\Settings\Interface\PluginSettingsPageRules;
+use Platonic\Framework\Settings\Interface\Plugin_Settings_Page_Rules;
 
-abstract class PluginSettings extends Settings implements PluginSettingsPageRules {
+abstract class Plugin_Settings extends Settings implements Plugin_Settings_Page_Rules {
 
 	/**
-	 * PluginSettings constructor.
+	 * Plugin_Settings constructor.
 	 */
 	public function __construct() {
 		parent::__construct();

@@ -3,9 +3,9 @@
 namespace Platonic\Framework\Customizer;
 
 use Kirki;
-use Platonic\Framework\Customizer\Interface\CustomizerRules;
+use Platonic\Framework\Customizer\Interface\Customizer_Rules;
 
-class Customizer implements CustomizerRules {
+class Customizer implements Customizer_Rules {
 	protected $option_name;
 
 	const THEME_MOD = 'theme_mod_config';

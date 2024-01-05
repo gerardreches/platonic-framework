@@ -2,7 +2,7 @@
 
 namespace Platonic\Framework\Settings\Trait;
 
-trait OptionsPage {
+trait Options_Page {
 
 	/**
 	 * Add submenu page to the Settings main menu.

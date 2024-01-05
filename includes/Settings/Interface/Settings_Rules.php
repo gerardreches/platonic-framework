@@ -2,7 +2,7 @@
 
 namespace Platonic\Framework\Settings\Interface;
 
-interface SettingsRules {
+interface Settings_Rules {
 
 	public function __construct();
 

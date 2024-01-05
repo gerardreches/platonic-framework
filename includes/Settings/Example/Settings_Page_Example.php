@@ -2,8 +2,8 @@
 
 namespace Platonic\Framework\Settings\Example;
 
-use Platonic\Framework\Settings\Interface\PluginSettingsPageRules;
-use Platonic\Framework\Settings\PluginSettings;
+use Platonic\Framework\Settings\Interface\Settings_Page_Rules;
+use Platonic\Framework\Settings\Settings;
 
 /**
  * INTRODUCTION
@@ -15,8 +15,8 @@ use Platonic\Framework\Settings\PluginSettings;
  * based on an Object-Oriented Programming approach.
  *
  * You would replace the name of this class with your own,
- * extend the Platonic\Framework\PluginSettings class, and
- * implement the PluginSettingsPageRules interface.
+ * extend the Platonic\Framework\Settings\Settings class, and
+ * implement the Settings_Page_Rules interface.
  *
  * This example class contains some methods that are 100% optional.
  * These methods are advanced usage examples, and they are not required
@@ -26,10 +26,38 @@ use Platonic\Framework\Settings\PluginSettings;
  * There are only 2 required methods: add_admin_menu() and register_settings()
  *
  */
-class PluginSettingsPageExample extends PluginSettings implements PluginSettingsPageRules {
+class Settings_Page_Example extends Settings implements Settings_Page_Rules {
 
 	const OPTION_GROUP = 'your_option_group';
 	const OPTION_NAME = 'your_option_name';
+
+	/**
+	 * OPTIONAL - Delete this method if this is your first time.
+	 *
+	 * The constructor is not necessary, however, you can create it to add some actions to manage options
+	 * when your plugin is activated/deactivated/uninstalled or when your theme is switched.
+	 *
+	 * AdminNotice that you can extend the classes ThemeSettingsPage and PluginSettingsPage instead of this one,
+	 * so there is no need to do this by yourself as they already include this code.
+	 *
+	 * If you do create it, don't forget to call the parent's __construct() inside it.
+	 */
+	public function __construct() {
+		// This is a MUST inside the constructor!
+		parent::__construct();
+
+		// These actions are entirely optional.
+		// They could be useful if you are creating the settings for a theme.
+		add_action( 'switch_theme', array( $this, 'on_theme_deactivation' ) );
+		add_action( 'after_switch_theme', array( $this, 'on_theme_activation' ) );
+
+		// For plugins, you could register your activation, deactivation, and uninstall hooks.
+		// https://developer.wordpress.org/plugins/plugin-basics/activation-deactivation-hooks/
+		//https://developer.wordpress.org/reference/functions/register_uninstall_hook/
+		register_activation_hook( __FILE__, array( $this, 'on_plugin_activation' ) );
+		register_deactivation_hook( __FILE__, array( $this, 'on_plugin_deactivation' ) );
+		register_uninstall_hook( __FILE__, array( $this, 'on_plugin_uninstall' ) );
+	}
 
 	/**
 	 * Add admin menu
@@ -127,37 +155,5 @@ class PluginSettingsPageExample extends PluginSettings implements PluginSettings
 				)
 			)
 		);
-	}
-
-	/**
-	 * The on_plugin_activation method is run when you activate your plugin.
-	 * You would use this to provide a function to set up your plugin —
-	 * for example, creating some default settings in the options table.
-	 */
-	function on_plugin_activation() {
-		// TODO: Implement on_plugin_deactivation() method.
-
-		$updated_options = array(
-			'text_field_example' => $this->get_option( 'text_field_example', 'Default value if option not previously set' ),
-		);
-		//update_option( static::OPTION_NAME, $updated_options );
-	}
-
-	/**
-	 * The on_plugin_deactivation method is run when you deactivate your plugin.
-	 * You would use this to provide a function that clears any
-	 * temporary data stored by your plugin.
-	 */
-	function on_plugin_deactivation() {
-		// TODO: Implement on_plugin_deactivation() method.
-	}
-
-	/**
-	 * The on_plugin_uninstall method is run after your plugin is deleted using the WordPress Admin.
-	 * You would use this to delete all data created by your plugin,
-	 * such as any options that were added to the options table.
-	 */
-	static function on_plugin_uninstall() {
-		// TODO: Implement on_plugin_uninstall() method.
 	}
 }

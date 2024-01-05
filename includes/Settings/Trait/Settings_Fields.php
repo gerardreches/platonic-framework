@@ -2,7 +2,7 @@
 
 namespace Platonic\Framework\Settings\Trait;
 
-trait SettingsFields {
+trait Settings_Fields {
 	/**
 	 * Call the necessary function to output the field depending on its type, and output a description if set.
 	 *

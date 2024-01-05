@@ -2,7 +2,7 @@
 
 namespace Platonic\Framework\Customizer\Interface;
 
-interface CustomizerRules {
+interface Customizer_Rules {
 
 	function add_panel( string $panel_id, array $args );
 

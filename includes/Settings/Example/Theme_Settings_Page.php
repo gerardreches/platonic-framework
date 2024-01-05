@@ -2,8 +2,8 @@
 
 namespace Platonic\Framework\Settings\Example;
 
-use Platonic\Framework\Settings\Interface\SettingsPageRules;
-use Platonic\Framework\Settings\Settings;
+use Platonic\Framework\Settings\Interface\Theme_Settings_Page_Rules;
+use Platonic\Framework\Settings\Theme_Settings;
 
 /**
  * INTRODUCTION
@@ -15,8 +15,8 @@ use Platonic\Framework\Settings\Settings;
  * based on an Object-Oriented Programming approach.
  *
  * You would replace the name of this class with your own,
- * extend the Platonic\Framework\Settings\Settings class, and
- * implement the SettingsPageRules interface.
+ * extend the Platonic\Framework\Settings\Theme_Settings class, and
+ * implement the Theme_Settings_Page_Rules interface.
  *
  * This example class contains some methods that are 100% optional.
  * These methods are advanced usage examples, and they are not required
@@ -26,38 +26,10 @@ use Platonic\Framework\Settings\Settings;
  * There are only 2 required methods: add_admin_menu() and register_settings()
  *
  */
-class SettingsPageExample extends Settings implements SettingsPageRules {
+class Theme_Settings_Page extends Theme_Settings implements Theme_Settings_Page_Rules {
 
 	const OPTION_GROUP = 'your_option_group';
 	const OPTION_NAME = 'your_option_name';
-
-	/**
-	 * OPTIONAL - Delete this method if this is your first time.
-	 *
-	 * The constructor is not necessary, however, you can create it to add some actions to manage options
-	 * when your plugin is activated/deactivated/uninstalled or when your theme is switched.
-	 *
-	 * AdminNotice that you can extend the classes ThemeSettingsPage and PluginSettingsPage instead of this one,
-	 * so there is no need to do this by yourself as they already include this code.
-	 *
-	 * If you do create it, don't forget to call the parent's __construct() inside it.
-	 */
-	public function __construct() {
-		// This is a MUST inside the constructor!
-		parent::__construct();
-
-		// These actions are entirely optional.
-		// They could be useful if you are creating the settings for a theme.
-		add_action( 'switch_theme', array( $this, 'on_theme_deactivation' ) );
-		add_action( 'after_switch_theme', array( $this, 'on_theme_activation' ) );
-
-		// For plugins, you could register your activation, deactivation, and uninstall hooks.
-		// https://developer.wordpress.org/plugins/plugin-basics/activation-deactivation-hooks/
-		//https://developer.wordpress.org/reference/functions/register_uninstall_hook/
-		register_activation_hook( __FILE__, array( $this, 'on_plugin_activation' ) );
-		register_deactivation_hook( __FILE__, array( $this, 'on_plugin_deactivation' ) );
-		register_uninstall_hook( __FILE__, array( $this, 'on_plugin_uninstall' ) );
-	}
 
 	/**
 	 * Add admin menu
@@ -155,5 +127,30 @@ class SettingsPageExample extends Settings implements SettingsPageRules {
 				)
 			)
 		);
+	}
+
+	/**
+	 * The on_theme_activation method is run when the blog’s theme is changed.
+	 * Specifically, it is executed after the theme has been switched but before the next request.
+	 * You would use this method to do things when the theme is activated.
+	 */
+	function on_theme_activation( $new_theme ) {
+		// TODO: Implement on_theme_activation() method.
+
+		$updated_options = array(
+			'text_field_example' => $this->get_option( 'text_field_example', 'Default value if option not previously set' ),
+		);
+		//update_option( static::OPTION_NAME, $updated_options );
+	}
+
+	/**
+	 * The on_theme_deactivation method is run when the blog’s theme is changed.
+	 * Specifically, it fires after the theme has been switched but before the next request.
+	 * You would use this method to do things when the theme is deactivated.
+	 */
+	function on_theme_deactivation() {
+		// TODO: Implement on_theme_deactivation() method.
+
+		//delete_option( static::OPTION_NAME );
 	}
 }

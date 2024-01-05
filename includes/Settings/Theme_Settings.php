@@ -2,12 +2,12 @@
 
 namespace Platonic\Framework\Settings;
 
-use Platonic\Framework\Settings\Interface\ThemeSettingsPageRules;
+use Platonic\Framework\Settings\Interface\Theme_Settings_Page_Rules;
 
-abstract class ThemeSettings extends Settings implements ThemeSettingsPageRules {
+abstract class Theme_Settings extends Settings implements Theme_Settings_Page_Rules {
 
 	/**
-	 * ThemeSettings constructor.
+	 * Theme_Settings constructor.
 	 */
 	public function __construct() {
 		parent::__construct();

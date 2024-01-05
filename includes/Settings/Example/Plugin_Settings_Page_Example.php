@@ -2,8 +2,8 @@
 
 namespace Platonic\Framework\Settings\Example;
 
-use Platonic\Framework\Settings\Interface\ThemeSettingsPageRules;
-use Platonic\Framework\Settings\ThemeSettings;
+use Platonic\Framework\Settings\Interface\Plugin_Settings_Page_Rules;
+use Platonic\Framework\Settings\Plugin_Settings;
 
 /**
  * INTRODUCTION
@@ -15,8 +15,8 @@ use Platonic\Framework\Settings\ThemeSettings;
  * based on an Object-Oriented Programming approach.
  *
  * You would replace the name of this class with your own,
- * extend the Platonic\Framework\Settings\ThemeSettings class, and
- * implement the ThemeSettingsPageRules interface.
+ * extend the Platonic\Framework\Plugin_Settings class, and
+ * implement the Plugin_Settings_Page_Rules interface.
  *
  * This example class contains some methods that are 100% optional.
  * These methods are advanced usage examples, and they are not required
@@ -26,7 +26,7 @@ use Platonic\Framework\Settings\ThemeSettings;
  * There are only 2 required methods: add_admin_menu() and register_settings()
  *
  */
-class ThemeSettingsPage extends ThemeSettings implements ThemeSettingsPageRules {
+class Plugin_Settings_Page_Example extends Plugin_Settings implements Plugin_Settings_Page_Rules {
 
 	const OPTION_GROUP = 'your_option_group';
 	const OPTION_NAME = 'your_option_name';
@@ -130,12 +130,12 @@ class ThemeSettingsPage extends ThemeSettings implements ThemeSettingsPageRules 
 	}
 
 	/**
-	 * The on_theme_activation method is run when the blog’s theme is changed.
-	 * Specifically, it is executed after the theme has been switched but before the next request.
-	 * You would use this method to do things when the theme is activated.
+	 * The on_plugin_activation method is run when you activate your plugin.
+	 * You would use this to provide a function to set up your plugin —
+	 * for example, creating some default settings in the options table.
 	 */
-	function on_theme_activation( $new_theme ) {
-		// TODO: Implement on_theme_activation() method.
+	function on_plugin_activation() {
+		// TODO: Implement on_plugin_deactivation() method.
 
 		$updated_options = array(
 			'text_field_example' => $this->get_option( 'text_field_example', 'Default value if option not previously set' ),
@@ -144,13 +144,20 @@ class ThemeSettingsPage extends ThemeSettings implements ThemeSettingsPageRules 
 	}
 
 	/**
-	 * The on_theme_deactivation method is run when the blog’s theme is changed.
-	 * Specifically, it fires after the theme has been switched but before the next request.
-	 * You would use this method to do things when the theme is deactivated.
+	 * The on_plugin_deactivation method is run when you deactivate your plugin.
+	 * You would use this to provide a function that clears any
+	 * temporary data stored by your plugin.
 	 */
-	function on_theme_deactivation() {
-		// TODO: Implement on_theme_deactivation() method.
+	function on_plugin_deactivation() {
+		// TODO: Implement on_plugin_deactivation() method.
+	}
 
-		//delete_option( static::OPTION_NAME );
+	/**
+	 * The on_plugin_uninstall method is run after your plugin is deleted using the WordPress Admin.
+	 * You would use this to delete all data created by your plugin,
+	 * such as any options that were added to the options table.
+	 */
+	static function on_plugin_uninstall() {
+		// TODO: Implement on_plugin_uninstall() method.
 	}
 }
