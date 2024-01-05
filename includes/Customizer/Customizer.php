@@ -1,9 +1,9 @@
 <?php
 
-namespace Platonic\Api\Customizer;
+namespace Platonic\Framework\Customizer;
 
 use Kirki;
-use Platonic\Api\Customizer\Interface\CustomizerRules;
+use Platonic\Framework\Customizer\Interface\CustomizerRules;
 
 class Customizer implements CustomizerRules {
 	protected $option_name;

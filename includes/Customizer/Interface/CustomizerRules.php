@@ -1,6 +1,6 @@
 <?php
 
-namespace Platonic\Api\Customizer\Interface;
+namespace Platonic\Framework\Customizer\Interface;
 
 interface CustomizerRules {
 

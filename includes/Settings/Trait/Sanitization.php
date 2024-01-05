@@ -1,6 +1,6 @@
 <?php
 
-namespace Platonic\Api\Settings\Trait;
+namespace Platonic\Framework\Settings\Trait;
 
 trait Sanitization {
 	/**

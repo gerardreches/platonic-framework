@@ -1,33 +1,33 @@
-# Platonic SettingsInterface API
+# Platonic Framework
 
-The __Platonic SettingsInterface API__ is an OOP (Object-oriented Programming) solution to create your own settings pages through
-the [WordPress' SettingsInterface API](https://codex.wordpress.org/Settings_API).
+The __Platonic Framework__ is an OOP (Object-oriented Programming) solution to create your own settings pages through
+the [WordPress Settings API](https://codex.wordpress.org/Settings_API) and the Customizer API.
 
-Basic examples are provided to guide you through the use of this API and the creation of your first settings pages.
+Basic examples are provided to guide you through the use of this API and the creation of your first settings page.
 
 ## Installation method
 
-You have two different methods to start using the __Platonic SettingsInterface API__. You can choose if you want to install the
+You have two different methods to start using the __Platonic Framework__. You can choose if you want to install the
 WordPress plugin (recommended) or to include it as part of the plugin/theme you are developing.
 
 ### Option 1: Install the plugin (recommended)
 
 This is the easiest method, and it will allow you to receive updates as well as not having to include the files multiple
-times if you have multiple plugins and/or themes using the __Platonic SettingsInterface API__.
+times if you have multiple plugins and/or themes using the __Platonic Framework__.
 
 ### Option 2: Include it in your plugin or theme
 
 1. Download this library and include it in your project.
-2. (Manual installation only) Require the `platonic-settings-api.php` file
+2. (Manual installation only) Require the `platonic-framework.php` file
 
 ## Get Started
 
 1. Create your PHP class
-2. Extend your class with the `Platonic\API\ThemeSettings` or the `Platonic\API\PluginInterfaceSettings`
+2. Extend your class with the `Platonic\Framework\ThemeSettings` or the `Platonic\Framework\PluginSettings`
 
 ## Methods
 
-The __Platonic SettingsInterface API__ includes some wrapper functions around some of the WordPress functions used to create your
+The __Platonic Framework__ includes some wrapper functions around WordPress functions used to create your
 custom settings pages.
 
 ```php

@@ -6,5 +6,5 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
-    'Platonic\\Api\\' => array($baseDir . '/includes'),
+    'Platonic\\Framework\\' => array($baseDir . '/includes'),
 );

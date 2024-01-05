@@ -1,27 +1,27 @@
 <?php
 
-namespace Platonic\Api\Settings\Example;
+namespace Platonic\Framework\Settings\Example;
 
-use Platonic\Api\Settings\Interface\SettingsPageRules;
-use Platonic\Api\Settings\Settings;
+use Platonic\Framework\Settings\Interface\SettingsPageRules;
+use Platonic\Framework\Settings\Settings;
 
 /**
  * INTRODUCTION
  *
  * This is an example of how to create your own settings page
- * in a simplified way using the Platonic Settings API.
+ * in a simplified way using the Platonic Framework.
  *
- * The Platonic Settings API is a wrapper for the WordPress Settings API,
+ * The Platonic Framework is a wrapper for the WordPress Settings API,
  * based on an Object-Oriented Programming approach.
  *
  * You would replace the name of this class with your own,
- * extend the Platonic\Api\Settings\Settings class, and
+ * extend the Platonic\Framework\Settings\Settings class, and
  * implement the SettingsPageRules interface.
  *
  * This example class contains some methods that are 100% optional.
  * These methods are advanced usage examples, and they are not required
  * at all, so feel free to skip them. Don't let them overwhelm you,
- * it is really easy to create your settings page with the Platonic Settings API.
+ * it is really easy to create your settings page with the Platonic Framework.
  *
  * There are only 2 required methods: add_admin_menu() and register_settings()
  *
@@ -37,7 +37,7 @@ class SettingsPageExample extends Settings implements SettingsPageRules {
 	 * The constructor is not necessary, however, you can create it to add some actions to manage options
 	 * when your plugin is activated/deactivated/uninstalled or when your theme is switched.
 	 *
-	 * Notice that you can extend the classes ThemeSettingsPage and PluginSettingsPage instead of this one,
+	 * AdminNotice that you can extend the classes ThemeSettingsPage and PluginSettingsPage instead of this one,
 	 * so there is no need to do this by yourself as they already include this code.
 	 *
 	 * If you do create it, don't forget to call the parent's __construct() inside it.

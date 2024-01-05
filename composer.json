@@ -1,6 +1,6 @@
 {
-  "name": "gerardreches/platonic-settings-api",
-  "description": "WordPress Settings API Framework",
+  "name": "gerardreches/platonic-framework",
+  "description": "WordPress Framework for the Settings API and the Customizer API",
   "type": "library",
   "keywords": [
     "WordPress",
@@ -11,7 +11,7 @@
   "license": "MIT",
   "autoload": {
     "psr-4": {
-      "Platonic\\Api\\": "includes/"
+      "Platonic\\Framework\\": "includes/"
     }
   },
   "authors": [

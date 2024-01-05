@@ -1,6 +1,6 @@
 <?php
 
-namespace Platonic\Api\Settings\Trait;
+namespace Platonic\Framework\Settings\Trait;
 
 trait OptionsPage {
 
@@ -27,7 +27,7 @@ trait OptionsPage {
 			$capability,
 			static::MENU_SLUG,
 			array( static::class, 'create_settings_page' ),
-			$position
+			$position ?? static::MENU_POSITION
 		);
 	}
 
@@ -61,7 +61,7 @@ trait OptionsPage {
 			static::MENU_SLUG,
 			array( static::class, 'create_settings_page' ),
 			$icon_url,
-			$position
+			$position ?? static::MENU_POSITION
 		);
 	}
 
@@ -92,7 +92,7 @@ trait OptionsPage {
 			$capability,
 			static::MENU_SLUG,
 			array( static::class, 'create_settings_page' ),
-			$position
+			$position ?? static::MENU_POSITION
 		);
 	}
 }

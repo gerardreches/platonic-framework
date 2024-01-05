@@ -1,18 +1,25 @@
 <?php
 
-namespace Platonic\Api\Settings;
+namespace Platonic\Framework\Settings;
 
-use Platonic\Api\Settings\Interface\SettingsRules;
-use Platonic\Api\Settings\Trait\OptionsPage;
-use Platonic\Api\Settings\Trait\Sanitization;
-use Platonic\Api\Settings\Trait\SettingsFields;
+use Platonic\Framework\Settings\Interface\SettingsRules;
+use Platonic\Framework\Settings\Trait\OptionsPage;
+use Platonic\Framework\Settings\Trait\Sanitization;
+use Platonic\Framework\Settings\Trait\SettingsFields;
 
 abstract class Settings implements SettingsRules {
 	use OptionsPage;
 	use SettingsFields;
 	use Sanitization;
 
-	private $registered_fields;
+	private array $registered_fields;
+
+	/**
+	 * The slug name to refer to this menu by. Should be unique for this menu
+	 * and only include lowercase alphanumeric, dashes, and underscores characters
+	 * to be compatible with sanitize_key().
+	 */
+	const MENU_SLUG = null;
 
 	/**
 	 * A settings group name. Should correspond to an allowed option key name.
@@ -30,17 +37,10 @@ abstract class Settings implements SettingsRules {
 	const SHOW_IN_REST = false;
 
 	/**
-	 * The slug name to refer to this menu by. Should be unique for this menu
-	 * and only include lowercase alphanumeric, dashes, and underscores characters
-	 * to be compatible with sanitize_key().
-	 */
-	const MENU_SLUG = null;
-
-	/**
 	 * Settings class constructor.
 	 */
 	public function __construct() {
-		add_action( 'admin_menu', array( $this, 'add_admin_menu' ), static::MENU_POSITION );
+		add_action( 'admin_menu', array( $this, 'add_admin_menu' ) );
 
 		add_action( 'admin_init', array( $this, 'register_settings' ) );
 
@@ -96,22 +96,23 @@ abstract class Settings implements SettingsRules {
 	 * Register the settings
 	 */
 	function register_settings() {
-		// We register the settings only when necessary in order to improve performance.
-		if ( empty( get_registered_settings()[ static::OPTION_NAME ] ) ) {
-			register_setting(
-				static::OPTION_GROUP ?? static::OPTION_NAME,
-				static::OPTION_NAME,
-				array(
-					'type'              => 'array',
-					'description'       => 'An array containing multiple options',
-					'sanitize_callback' => array( $this, 'sanitize_callback' ),
-					'show_in_rest'      => static::SHOW_IN_REST,
-					'default'           => array()
-				)
-			);
 
-			add_settings_error( static::OPTION_NAME, 'my_option_notice', "<-- THE METHOD REGISTER_SETTINGS() FROM " . get_class( $this ) . " HAS BEEN FIRED -->", 'info' );
+		if ( ! empty( get_registered_settings()[ static::OPTION_NAME ] ) ) {
+			add_settings_error( static::OPTION_NAME, static::OPTION_NAME, "Setting <em>" . static::OPTION_NAME . "</em> is being registered twice. This may cause unexpected issues. Check your error log for more details.", 'warning' );
+			error_log( "Class " . get_class( $this ) . " is registering a setting named " . static::OPTION_NAME . " which was already registered. The setting's arguments will be overwritten, which may cause unexpected issues. Please, consider registering a new setting instead of an existent one." );
 		}
+
+		register_setting(
+			static::OPTION_GROUP ?? static::OPTION_NAME,
+			static::OPTION_NAME,
+			array(
+				'type'              => 'array',
+				'description'       => 'An array containing multiple options',
+				'sanitize_callback' => array( $this, 'sanitize_callback' ),
+				'show_in_rest'      => static::SHOW_IN_REST,
+				'default'           => array()
+			)
+		);
 	}
 
 	/**
@@ -135,7 +136,7 @@ abstract class Settings implements SettingsRules {
 	 *
 	 * Part of the Settings API. Use this to define a settings field that will show
 	 * as part of a settings section inside a settings page. The fields are shown using
-	 * do_settings_fields() in do_settings-sections()
+	 * do_settings_fields() in do_settings_sections()
 	 *
 	 * The $callback argument should be the name of a function that echoes out the
 	 * HTML input tags for this setting field. Use get_option() to retrieve existing
@@ -196,8 +197,6 @@ abstract class Settings implements SettingsRules {
 			'value'   => static::get_option( $id ),
 			'default' => $args['default'] ?? null
 		);
-
-		add_settings_error( static::OPTION_NAME, $id, $title, 'warning' );
 	}
 
 	/**
@@ -212,7 +211,7 @@ abstract class Settings implements SettingsRules {
 			$options = array();
 			add_settings_error( static::OPTION_NAME, static::OPTION_NAME, "Something went wrong.", 'error' );
 		}
-        // TODO: Temporal
+		// TODO: Temporal
 		add_settings_error( static::OPTION_NAME, 'my_option_notice', "<pre>" . print_r( $options, true ) . "</pre>", 'info' );
 
 		$message = '';
@@ -226,7 +225,7 @@ abstract class Settings implements SettingsRules {
 			$sanitization_callback = array( $this, 'sanitize_' . $this->registered_fields[ $key ]['type'] );
 			$options[ $key ]       = static::sanitize( $value, $sanitization_callback );
 
-			$message = $message . "{$key} sanitized with value {$options[ $key ]}<br>";
+			$message .= "{$key} sanitized with value {$options[ $key ]}<br>";
 		}
 		// TODO: Temporal
 		add_settings_error( static::OPTION_NAME, 'my_option_notice', $message, 'success' );
@@ -254,7 +253,7 @@ abstract class Settings implements SettingsRules {
             <!-- Displays the title -->
             <h1><?php echo esc_html( get_admin_page_title() ); ?></h1>
             <!-- Displays error or updated notices -->
-			<?php settings_errors(); ?>
+			<?php //settings_errors(); ?>
             <!-- The form must point to options.php -->
             <form action='options.php' method='POST'>
 				<?php

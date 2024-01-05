@@ -1,6 +1,6 @@
 <?php
 
-namespace Platonic\Api\Settings\Interface;
+namespace Platonic\Framework\Settings\Interface;
 
 interface SettingsRules {
 

@@ -9,12 +9,12 @@ class ComposerStaticInitef637136d5fae12e96d0c7e8c829c969
     public static $prefixLengthsPsr4 = array (
         'P' => 
         array (
-            'Platonic\\Api\\' => 13,
+            'Platonic\\Framework\\' => 19,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'Platonic\\Api\\' => 
+        'Platonic\\Framework\\' => 
         array (
             0 => __DIR__ . '/../..' . '/includes',
         ),
@@ -22,21 +22,21 @@ class ComposerStaticInitef637136d5fae12e96d0c7e8c829c969
 
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
-        'Platonic\\Api\\Customizer\\Customizer' => __DIR__ . '/../..' . '/includes/Customizer/Customizer.php',
-        'Platonic\\Api\\Customizer\\Interface\\CustomizerRules' => __DIR__ . '/../..' . '/includes/Customizer/Interface/CustomizerRules.php',
-        'Platonic\\Api\\Settings\\Example\\PluginSettingsPageExample' => __DIR__ . '/../..' . '/includes/Settings/Example/PluginSettingsPageExample.php',
-        'Platonic\\Api\\Settings\\Example\\SettingsPageExample' => __DIR__ . '/../..' . '/includes/Settings/Example/SettingsPageExample.php',
-        'Platonic\\Api\\Settings\\Example\\ThemeSettingsPage' => __DIR__ . '/../..' . '/includes/Settings/Example/ThemeSettingsPage.php',
-        'Platonic\\Api\\Settings\\Interface\\PluginSettingsPageRules' => __DIR__ . '/../..' . '/includes/Settings/Interface/PluginSettingsPageRules.php',
-        'Platonic\\Api\\Settings\\Interface\\SettingsPageRules' => __DIR__ . '/../..' . '/includes/Settings/Interface/SettingsPageRules.php',
-        'Platonic\\Api\\Settings\\Interface\\SettingsRules' => __DIR__ . '/../..' . '/includes/Settings/Interface/SettingsRules.php',
-        'Platonic\\Api\\Settings\\Interface\\ThemeSettingsPageRules' => __DIR__ . '/../..' . '/includes/Settings/Interface/ThemeSettingsPageRules.php',
-        'Platonic\\Api\\Settings\\PluginSettings' => __DIR__ . '/../..' . '/includes/Settings/PluginSettings.php',
-        'Platonic\\Api\\Settings\\Settings' => __DIR__ . '/../..' . '/includes/Settings/Settings.php',
-        'Platonic\\Api\\Settings\\ThemeSettings' => __DIR__ . '/../..' . '/includes/Settings/ThemeSettings.php',
-        'Platonic\\Api\\Settings\\Trait\\OptionsPage' => __DIR__ . '/../..' . '/includes/Settings/Trait/OptionsPage.php',
-        'Platonic\\Api\\Settings\\Trait\\Sanitization' => __DIR__ . '/../..' . '/includes/Settings/Trait/Sanitization.php',
-        'Platonic\\Api\\Settings\\Trait\\SettingsFields' => __DIR__ . '/../..' . '/includes/Settings/Trait/SettingsFields.php',
+        'Platonic\\Framework\\Customizer\\Customizer' => __DIR__ . '/../..' . '/includes/Customizer/Customizer.php',
+        'Platonic\\Framework\\Customizer\\Interface\\CustomizerRules' => __DIR__ . '/../..' . '/includes/Customizer/Interface/CustomizerRules.php',
+        'Platonic\\Framework\\Settings\\Example\\PluginSettingsPageExample' => __DIR__ . '/../..' . '/includes/Settings/Example/PluginSettingsPageExample.php',
+        'Platonic\\Framework\\Settings\\Example\\SettingsPageExample' => __DIR__ . '/../..' . '/includes/Settings/Example/SettingsPageExample.php',
+        'Platonic\\Framework\\Settings\\Example\\ThemeSettingsPage' => __DIR__ . '/../..' . '/includes/Settings/Example/ThemeSettingsPage.php',
+        'Platonic\\Framework\\Settings\\Interface\\PluginSettingsPageRules' => __DIR__ . '/../..' . '/includes/Settings/Interface/PluginSettingsPageRules.php',
+        'Platonic\\Framework\\Settings\\Interface\\SettingsPageRules' => __DIR__ . '/../..' . '/includes/Settings/Interface/SettingsPageRules.php',
+        'Platonic\\Framework\\Settings\\Interface\\SettingsRules' => __DIR__ . '/../..' . '/includes/Settings/Interface/SettingsRules.php',
+        'Platonic\\Framework\\Settings\\Interface\\ThemeSettingsPageRules' => __DIR__ . '/../..' . '/includes/Settings/Interface/ThemeSettingsPageRules.php',
+        'Platonic\\Framework\\Settings\\PluginSettings' => __DIR__ . '/../..' . '/includes/Settings/PluginSettings.php',
+        'Platonic\\Framework\\Settings\\Settings' => __DIR__ . '/../..' . '/includes/Settings/Settings.php',
+        'Platonic\\Framework\\Settings\\ThemeSettings' => __DIR__ . '/../..' . '/includes/Settings/ThemeSettings.php',
+        'Platonic\\Framework\\Settings\\Trait\\OptionsPage' => __DIR__ . '/../..' . '/includes/Settings/Trait/OptionsPage.php',
+        'Platonic\\Framework\\Settings\\Trait\\Sanitization' => __DIR__ . '/../..' . '/includes/Settings/Trait/Sanitization.php',
+        'Platonic\\Framework\\Settings\\Trait\\SettingsFields' => __DIR__ . '/../..' . '/includes/Settings/Trait/SettingsFields.php',
     );
 
     public static function getInitializer(ClassLoader $loader)

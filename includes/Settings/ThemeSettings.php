@@ -1,8 +1,8 @@
 <?php
 
-namespace Platonic\Api\Settings;
+namespace Platonic\Framework\Settings;
 
-use Platonic\Api\Settings\Interface\ThemeSettingsPageRules;
+use Platonic\Framework\Settings\Interface\ThemeSettingsPageRules;
 
 abstract class ThemeSettings extends Settings implements ThemeSettingsPageRules {
 

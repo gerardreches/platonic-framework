@@ -1,8 +1,8 @@
 <?php
 
-namespace Platonic\Api\Settings;
+namespace Platonic\Framework\Settings;
 
-use Platonic\Api\Settings\Interface\PluginSettingsPageRules;
+use Platonic\Framework\Settings\Interface\PluginSettingsPageRules;
 
 abstract class PluginSettings extends Settings implements PluginSettingsPageRules {
 
@@ -14,7 +14,7 @@ abstract class PluginSettings extends Settings implements PluginSettingsPageRule
 
 		register_activation_hook( __FILE__, array( $this, 'on_plugin_activation' ) );
 		register_deactivation_hook( __FILE__, array( $this, 'on_plugin_deactivation' ) );
-		register_uninstall_hook( __FILE__, array( $this, 'on_plugin_uninstall' ) );
+		register_uninstall_hook( __FILE__, array( static::class, 'on_plugin_uninstall' ) );
 	}
 
 	/**

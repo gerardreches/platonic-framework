@@ -1,27 +1,27 @@
 <?php
 
-namespace Platonic\Api\Settings\Example;
+namespace Platonic\Framework\Settings\Example;
 
-use Platonic\Api\Settings\Interface\ThemeSettingsPageRules;
-use Platonic\Api\Settings\ThemeSettings;
+use Platonic\Framework\Settings\Interface\ThemeSettingsPageRules;
+use Platonic\Framework\Settings\ThemeSettings;
 
 /**
  * INTRODUCTION
  *
  * This is an example of how to create your own settings page
- * in a simplified way using the Platonic Settings API.
+ * in a simplified way using the Platonic Framework.
  *
- * The Platonic Settings API is a wrapper for the WordPress Settings API,
+ * The Platonic Framework is a wrapper for the WordPress Settings API,
  * based on an Object-Oriented Programming approach.
  *
  * You would replace the name of this class with your own,
- * extend the Platonic\Api\Settings\ThemeSettings class, and
+ * extend the Platonic\Framework\Settings\ThemeSettings class, and
  * implement the ThemeSettingsPageRules interface.
  *
  * This example class contains some methods that are 100% optional.
  * These methods are advanced usage examples, and they are not required
  * at all, so feel free to skip them. Don't let them overwhelm you,
- * it is really easy to create your settings page with the Platonic Settings API.
+ * it is really easy to create your settings page with the Platonic Framework.
  *
  * There are only 2 required methods: add_admin_menu() and register_settings()
  *
