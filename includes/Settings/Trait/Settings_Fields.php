@@ -35,6 +35,15 @@ trait Settings_Fields {
 	}
 
 	/**
+	 * Output a number field.
+	 *
+	 * @param array $args
+	 */
+	static function add_number_field_callback( array $args ) {
+		echo "<input id='{$args['id']}' type='{$args['type']}' name='{$args['name']}' class='{$args['field_class']}' step='{$args['step']}' min='{$args['min']}' max='{$args['max']}' value='{$args['value']}'>";
+	}
+
+	/**
 	 * Output an email field.
 	 *
 	 * @param array $args

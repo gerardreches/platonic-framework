@@ -30,6 +30,8 @@ interface Settings_Rules {
 
 	static function add_textarea_field_callback( array $args );
 
+	static function add_number_field_callback( array $args );
+
 	static function add_email_field_callback( array $args );
 
 	static function add_tel_field_callback( array $args );
@@ -53,6 +55,8 @@ interface Settings_Rules {
 	static function sanitize( $value, callable $sanitization_callback );
 
 	static function sanitize_text( $value );
+
+	static function sanitize_number( $value );
 
 	static function sanitize_email( $value );
 

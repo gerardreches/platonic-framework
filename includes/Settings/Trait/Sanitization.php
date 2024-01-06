@@ -11,7 +11,7 @@ trait Sanitization {
 	 *
 	 * @return array
 	 */
-	final static function sanitize( $value, callable $sanitization_callback ) {
+	final static function sanitize( $value, callable $sanitization_callback ): mixed {
 		if ( is_callable( $sanitization_callback ) ) {
 			return call_user_func( $sanitization_callback, $value );
 		}
@@ -19,19 +19,23 @@ trait Sanitization {
 		return $value;
 	}
 
-	static function sanitize_text( $value ) {
+	static function sanitize_text( $value ): string {
 		return sanitize_text_field( $value );
 	}
 
-	static function sanitize_textarea( $value ) {
+	static function sanitize_textarea( $value ): string {
 		return sanitize_text_field( $value );
 	}
 
-	static function sanitize_email( $value ) {
+	static function sanitize_number( $value ): int {
+		return sanitize_text_field( (int) $value );
+	}
+
+	static function sanitize_email( $value ): string {
 		return sanitize_email( $value );
 	}
 
-	static function sanitize_tel( $value ) {
+	static function sanitize_tel( $value ): array|string|null {
 		return preg_replace( '/[^0-9]/', '', $value );
 	}
 
@@ -39,7 +43,7 @@ trait Sanitization {
 		return $value;
 	}
 
-	static function sanitize_url( $value ) {
+	static function sanitize_url( $value ): string {
 		return esc_url_raw( $value );
 	}
 
@@ -55,11 +59,11 @@ trait Sanitization {
 		return esc_url_raw( $value );
 	}
 
-	static function sanitize_radio( $value ) {
+	static function sanitize_radio( $value ): string {
 		return sanitize_text_field( $value );
 	}
 
-	static function sanitize_select( $value ) {
+	static function sanitize_select( $value ): string {
 		return sanitize_text_field( $value );
 	}
 }
