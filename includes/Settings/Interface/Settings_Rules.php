@@ -12,12 +12,6 @@ interface Settings_Rules {
 
 	static function get_option( string $id, $default );
 
-	static function add_options_page( string $page_title, string $menu_title, string $capability, int $position );
-
-	static function add_menu_page( string $page_title, string $menu_title, string $icon_url, string $capability, int $position );
-
-	static function add_submenu_page( string $parent_slug, string $page_title, string $menu_title, string $capability, int $position );
-
 	function register_settings(): void;
 
 	function add_settings(): void;

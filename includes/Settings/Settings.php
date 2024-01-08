@@ -3,14 +3,14 @@
 namespace Platonic\Framework\Settings;
 
 use Platonic\Framework\Settings\Interface\Settings_Rules;
-use Platonic\Framework\Settings\Trait\Option_Lifecycle_Manager;
-use Platonic\Framework\Settings\Trait\Options_Page;
-use Platonic\Framework\Settings\Trait\Sanitization;
+use Platonic\Framework\Settings\Trait\Menu_Page_Handler;
 use Platonic\Framework\Settings\Trait\Settings_Fields;
+use Platonic\Framework\Settings\Trait\Sanitization;
+use Platonic\Framework\Settings\Trait\Option_Lifecycle_Manager;
 
 abstract class Settings implements Settings_Rules {
 
-	use Options_Page;
+	use Menu_Page_Handler;
 	use Settings_Fields;
 	use Sanitization;
 	use Option_Lifecycle_Manager;
@@ -59,15 +59,15 @@ abstract class Settings implements Settings_Rules {
 			add_action( 'admin_enqueue_scripts', array( static::class, 'enqueue_admin_scripts' ) );
 		}
 
-        /**
-         * Hook into the option lifecycle.
-         */
+		/**
+		 * Hook into the option lifecycle.
+		 */
 		static::manage_option_lifecycle( static::OPTION_NAME );
 	}
 
 	/**
-     * Enqueue the necessary scripts and styles for the Settings API.
-     *
+	 * Enqueue the necessary scripts and styles for the Settings API.
+	 *
 	 * @return void
 	 */
 	final static function enqueue_admin_scripts(): void {
@@ -98,8 +98,8 @@ abstract class Settings implements Settings_Rules {
 	}
 
 	/**
-     * Returns all theme options
-     *
+	 * Returns all theme options
+	 *
 	 * @return mixed
 	 */
 	final static function get_options(): mixed {
@@ -126,8 +126,8 @@ abstract class Settings implements Settings_Rules {
 	}
 
 	/**
-     * Register the settings
-     *
+	 * Register the settings
+	 *
 	 * @return void
 	 */
 	function register_settings(): void {
@@ -149,7 +149,7 @@ abstract class Settings implements Settings_Rules {
 			)
 		);
 
-        $this->add_settings();
+		$this->add_settings();
 	}
 
 	/**
@@ -280,7 +280,7 @@ abstract class Settings implements Settings_Rules {
 	/**
 	 * Output the admin page containing the form with the fields that have been registered.
 	 */
-    static function create_settings_page(): void {
+	static function create_settings_page(): void {
 		do_action( 'platonic_before_settings_page' );
 		?>
         <div class='wrap'>

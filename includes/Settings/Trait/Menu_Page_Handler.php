@@ -2,34 +2,15 @@
 
 namespace Platonic\Framework\Settings\Trait;
 
-trait Options_Page {
-
-	/**
-	 * Add submenu page to the Settings main menu.
-	 *
-	 * This function takes a capability which will be used to determine whether a page is included in the menu.
-	 *
-	 * The function which is hooked in to handle the output of the page must check
-	 * that the user has the required capability as well.
-	 *
-	 * @param string $page_title The text to be displayed in the title tags of the page when the menu is selected.
-	 * @param string $menu_title The text to be used for the menu.
-	 * @param string $capability The capability required for this menu to be displayed to the user.
-	 * @param int|null $position The position in the menu order this item should appear.
-	 *
-	 * @return string|false The resulting page's hook_suffix, or false if the user does not have the capability required.
-	 * @since 1.0
-	 */
-	final static function add_options_page( string $page_title, string $menu_title, string $capability = 'manage_options', int $position = null ): string|false {
-		return add_options_page(
-			$page_title,
-			$menu_title,
-			$capability,
-			static::MENU_SLUG,
-			array( static::class, 'create_settings_page' ),
-			$position ?? static::MENU_POSITION
-		);
-	}
+/**
+ * Trait providing methods to add options pages to the WordPress admin menu.
+ *
+ * This trait encapsulates functions to add top-level menu pages and submenu pages to the WordPress admin menu.
+ * It allows for the creation of settings pages associated with those menu items.
+ *
+ * @package Platonic\Framework\Settings\Trait
+ */
+trait Menu_Page_Handler {
 
 	/**
 	 * Add a top-level menu page.
@@ -55,13 +36,13 @@ trait Options_Page {
 	 */
 	final static function add_menu_page( string $page_title, string $menu_title, string $icon_url = '', string $capability = 'manage_options', int $position = null ): string {
 		return add_menu_page(
-			$page_title,
-			$menu_title,
-			$capability,
-			static::MENU_SLUG,
-			array( static::class, 'create_settings_page' ),
-			$icon_url,
-			$position ?? static::MENU_POSITION
+			page_title: $page_title,
+			menu_title: $menu_title,
+			capability: $capability,
+			menu_slug: static::MENU_SLUG,
+			callback: array( static::class, 'create_settings_page' ),
+			icon_url: $icon_url,
+			position: $position ?? static::MENU_POSITION
 		);
 	}
 
@@ -86,13 +67,41 @@ trait Options_Page {
 	 */
 	final static function add_submenu_page( string $parent_slug, string $page_title, string $menu_title, string $capability = 'manage_options', int $position = null ): string|false {
 		return add_submenu_page(
-			$parent_slug,
-			$page_title,
-			$menu_title,
-			$capability,
-			static::MENU_SLUG,
-			array( static::class, 'create_settings_page' ),
-			$position ?? static::MENU_POSITION
+			parent_slug: $parent_slug,
+			page_title: $page_title,
+			menu_title: $menu_title,
+			capability: $capability,
+			menu_slug: static::MENU_SLUG,
+			callback: array( static::class, 'create_settings_page' ),
+			position: $position ?? static::MENU_POSITION
 		);
 	}
+
+	/**
+	 * Add submenu page to the Settings main menu.
+	 *
+	 * This function takes a capability which will be used to determine whether a page is included in the menu.
+	 *
+	 * The function which is hooked in to handle the output of the page must check
+	 * that the user has the required capability as well.
+	 *
+	 * @param string $page_title The text to be displayed in the title tags of the page when the menu is selected.
+	 * @param string $menu_title The text to be used for the menu.
+	 * @param string $capability The capability required for this menu to be displayed to the user.
+	 * @param int|null $position The position in the menu order this item should appear.
+	 *
+	 * @return string|false The resulting page's hook_suffix, or false if the user does not have the capability required.
+	 * @since 1.0
+	 */
+	final static function add_options_page( string $page_title, string $menu_title, string $capability = 'manage_options', int $position = null ): string|false {
+		return add_options_page(
+			page_title: $page_title,
+			menu_title: $menu_title,
+			capability: $capability,
+			menu_slug: static::MENU_SLUG,
+			callback: array( static::class, 'create_settings_page' ),
+			position: $position ?? static::MENU_POSITION
+		);
+	}
+
 }
