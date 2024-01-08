@@ -34,6 +34,7 @@ class ComposerStaticInitef637136d5fae12e96d0c7e8c829c969
         'Platonic\\Framework\\Settings\\Plugin_Settings' => __DIR__ . '/../..' . '/includes/Settings/Plugin_Settings.php',
         'Platonic\\Framework\\Settings\\Settings' => __DIR__ . '/../..' . '/includes/Settings/Settings.php',
         'Platonic\\Framework\\Settings\\Theme_Settings' => __DIR__ . '/../..' . '/includes/Settings/Theme_Settings.php',
+        'Platonic\\Framework\\Settings\\Trait\\Option_Management' => __DIR__ . '/../..' . '/includes/Settings/Trait/Option_Management.php',
         'Platonic\\Framework\\Settings\\Trait\\Options_Page' => __DIR__ . '/../..' . '/includes/Settings/Trait/Options_Page.php',
         'Platonic\\Framework\\Settings\\Trait\\Sanitization' => __DIR__ . '/../..' . '/includes/Settings/Trait/Sanitization.php',
         'Platonic\\Framework\\Settings\\Trait\\Settings_Fields' => __DIR__ . '/../..' . '/includes/Settings/Trait/Settings_Fields.php',
