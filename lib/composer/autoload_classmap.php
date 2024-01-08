@@ -19,7 +19,7 @@ return array(
     'Platonic\\Framework\\Settings\\Plugin_Settings' => $baseDir . '/includes/Settings/Plugin_Settings.php',
     'Platonic\\Framework\\Settings\\Settings' => $baseDir . '/includes/Settings/Settings.php',
     'Platonic\\Framework\\Settings\\Theme_Settings' => $baseDir . '/includes/Settings/Theme_Settings.php',
-    'Platonic\\Framework\\Settings\\Trait\\Option_Management' => $baseDir . '/includes/Settings/Trait/Option_Management.php',
+    'Platonic\\Framework\\Settings\\Trait\\Option_Lifecycle_Manager' => $baseDir . '/includes/Settings/Trait/Option_Lifecycle_Manager.php',
     'Platonic\\Framework\\Settings\\Trait\\Options_Page' => $baseDir . '/includes/Settings/Trait/Options_Page.php',
     'Platonic\\Framework\\Settings\\Trait\\Sanitization' => $baseDir . '/includes/Settings/Trait/Sanitization.php',
     'Platonic\\Framework\\Settings\\Trait\\Settings_Fields' => $baseDir . '/includes/Settings/Trait/Settings_Fields.php',

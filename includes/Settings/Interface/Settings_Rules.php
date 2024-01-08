@@ -54,40 +54,6 @@ interface Settings_Rules {
 
 	function sanitize_callback( array $options );
 
-	static function sanitize( $value, callable $sanitization_callback );
-
-	static function sanitize_text( $value );
-
-	static function sanitize_number( $value );
-
-	static function sanitize_email( $value );
-
-	static function sanitize_tel( $value );
-
-	static function sanitize_password( $value );
-
-	static function sanitize_url( $value );
-
-	static function sanitize_color( $value );
-
-	static function sanitize_checkbox( $value );
-
-	static function sanitize_radio( $value );
-
-	static function sanitize_file( $value );
-
-	static function sanitize_select( $value );
-
-	static function create_settings_page();
-
-	static function pre_update_option( mixed $value, mixed $old_value, string $option ): mixed;
-
-	static function after_add_option( string $option, mixed $value ): void;
-
-	static function after_update_option( mixed $old_value, mixed $value, string $option ): void;
-
-	static function after_delete_option( string $option ): void;
-
-	static function sanitize_option( mixed $value, string $option, mixed $original_value ): mixed;
+	static function create_settings_page(): void;
 
 }

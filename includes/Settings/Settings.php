@@ -3,7 +3,7 @@
 namespace Platonic\Framework\Settings;
 
 use Platonic\Framework\Settings\Interface\Settings_Rules;
-use Platonic\Framework\Settings\Trait\Option_Management;
+use Platonic\Framework\Settings\Trait\Option_Lifecycle_Manager;
 use Platonic\Framework\Settings\Trait\Options_Page;
 use Platonic\Framework\Settings\Trait\Sanitization;
 use Platonic\Framework\Settings\Trait\Settings_Fields;
@@ -13,7 +13,7 @@ abstract class Settings implements Settings_Rules {
 	use Options_Page;
 	use Settings_Fields;
 	use Sanitization;
-	use Option_Management;
+	use Option_Lifecycle_Manager;
 
 	private array $registered_settings;
 	private array $registered_sections;
@@ -53,40 +53,22 @@ abstract class Settings implements Settings_Rules {
 		add_action( 'admin_init', array( $this, 'register_settings' ) );
 
 		// TODO: REST API compatibility. Requires schema definition.
-		//add_action( 'rest_api_init', array( $this, 'add_settings' ) );
+		//add_action( 'rest_api_init', array( $this, 'register_settings' ) );
 
 		if ( isset( $_GET['page'] ) && static::MENU_SLUG === $_GET['page'] ) {
 			add_action( 'admin_enqueue_scripts', array( static::class, 'enqueue_admin_scripts' ) );
 		}
 
-		/**
-		 * Filters the option before its value is (maybe) serialized and updated.
-		 */
-		add_filter( 'pre_update_option_' . static::OPTION_NAME, array( static::class, 'pre_update_option' ), 10, 3 );
-
-		/**
-		 * Fires after the option has been added.
-		 */
-		add_action( 'add_option_' . static::OPTION_NAME, array( static::class, 'after_add_option' ), 10, 2 );
-
-		/**
-		 * Fires after the value of the option has been successfully updated.
-		 */
-		add_action( 'update_option_' . static::OPTION_NAME, array( static::class, 'after_update_option' ), 10, 3 );
-
-		/**
-		 * Fires after the option has been deleted.
-		 */
-		add_action( 'delete_option_' . static::OPTION_NAME, array( static::class, 'after_delete_option' ), 10, 1 );
-
-		/**
-		 * Filters the option value following sanitization.
-		 */
-		add_filter( 'sanitize_option_' . static::OPTION_NAME, array( static::class, 'sanitize_option' ), 10, 3 );
+        /**
+         * Hook into the option lifecycle.
+         */
+		static::manage_option_lifecycle( static::OPTION_NAME );
 	}
 
 	/**
-	 * Enqueue the necessary scripts and styles for the Settings API.
+     * Enqueue the necessary scripts and styles for the Settings API.
+     *
+	 * @return void
 	 */
 	final static function enqueue_admin_scripts(): void {
 		wp_enqueue_script( 'jquery' );
@@ -116,7 +98,9 @@ abstract class Settings implements Settings_Rules {
 	}
 
 	/**
-	 * Returns all theme options
+     * Returns all theme options
+     *
+	 * @return mixed
 	 */
 	final static function get_options(): mixed {
 		return get_option( static::OPTION_NAME );
@@ -142,7 +126,9 @@ abstract class Settings implements Settings_Rules {
 	}
 
 	/**
-	 * Register the settings
+     * Register the settings
+     *
+	 * @return void
 	 */
 	function register_settings(): void {
 
@@ -193,10 +179,6 @@ abstract class Settings implements Settings_Rules {
 	 * as part of a settings section inside a settings page. The fields are shown using
 	 * do_settings_fields() in do_settings_sections()
 	 *
-	 * The $callback argument should be the name of a function that echoes out the
-	 * HTML input tags for this setting field. Use get_option() to retrieve existing
-	 * values to show.
-	 *
 	 * @param string $id Slug-name to identify the field. Used in the 'id' attribute of tags.
 	 * @param string $title Formatted title for the field. Shown as the label for the field
 	 *                           during output.
@@ -215,7 +197,7 @@ abstract class Settings implements Settings_Rules {
 		add_settings_field(
 			$id,
 			$title,
-			array( static::class, 'add_settings_field_callback' ),
+			$args['callback'] ?? array( static::class, 'add_settings_field_callback' ),
 			static::class,
 			$section,
 			array_merge(
@@ -254,7 +236,7 @@ abstract class Settings implements Settings_Rules {
 	 *
 	 * @param array|null $options
 	 *
-	 * @return array
+	 * @return array|null
 	 */
 	final function sanitize_callback( ?array $options ): ?array {
 
@@ -298,7 +280,7 @@ abstract class Settings implements Settings_Rules {
 	/**
 	 * Output the admin page containing the form with the fields that have been registered.
 	 */
-	final static function create_settings_page(): void {
+    static function create_settings_page(): void {
 		do_action( 'platonic_before_settings_page' );
 		?>
         <div class='wrap'>
