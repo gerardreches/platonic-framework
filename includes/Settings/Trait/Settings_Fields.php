@@ -8,7 +8,7 @@ trait Settings_Fields {
 	 *
 	 * @param array $args
 	 */
-	final static function add_settings_field_callback( array $args ) {
+	final static function add_settings_field_callback( array $args ): void {
 		call_user_func( array( static::class, 'add_' . $args['type'] . '_field_callback' ), $args );
 
 		if ( ! empty( $args['description'] ) ) {
@@ -21,8 +21,8 @@ trait Settings_Fields {
 	 *
 	 * @param array $args
 	 */
-	static function add_text_field_callback( array $args ) {
-		echo "<input id='{$args['id']}' type='{$args['type']}' name='{$args['name']}' class='{$args['field_class']}' value='{$args['value']}'>";
+	static function add_text_field_callback( array $args ): void {
+		echo "<input id='{$args['id']}' type='{$args['type']}' name='{$args['name']}' class='{$args['class']}' value='{$args['value']}'>";
 	}
 
 	/**
@@ -30,8 +30,8 @@ trait Settings_Fields {
 	 *
 	 * @param array $args
 	 */
-	static function add_textarea_field_callback( array $args ) {
-		echo "<textarea id='{$args['id']}' name='{$args['name']}' class='{$args['field_class']}' rows='{$args['rows']}' cols='{$args['cols']}' placeholder='{$args['placeholder']}'>{$args['value']}</textarea>";
+	static function add_textarea_field_callback( array $args ): void {
+		echo "<textarea id='{$args['id']}' name='{$args['name']}' class='{$args['class']}' rows='{$args['rows']}' cols='{$args['cols']}' placeholder='{$args['placeholder']}'>{$args['value']}</textarea>";
 	}
 
 	/**
@@ -39,8 +39,8 @@ trait Settings_Fields {
 	 *
 	 * @param array $args
 	 */
-	static function add_number_field_callback( array $args ) {
-		echo "<input id='{$args['id']}' type='{$args['type']}' name='{$args['name']}' class='{$args['field_class']}' step='{$args['step']}' min='{$args['min']}' max='{$args['max']}' value='{$args['value']}'>";
+	static function add_number_field_callback( array $args ): void {
+		echo "<input id='{$args['id']}' type='{$args['type']}' name='{$args['name']}' class='small-text {$args['class']}' step='{$args['step']}' min='{$args['min']}' max='{$args['max']}' value='{$args['value']}'>";
 	}
 
 	/**
@@ -48,8 +48,8 @@ trait Settings_Fields {
 	 *
 	 * @param array $args
 	 */
-	static function add_email_field_callback( array $args ) {
-		echo "<input id='{$args['id']}' type='{$args['type']}' name='{$args['name']}' class='{$args['field_class']}' value='{$args['value']}'>";
+	static function add_email_field_callback( array $args ): void {
+		echo "<input id='{$args['id']}' type='{$args['type']}' name='{$args['name']}' class='{$args['class']}' value='{$args['value']}'>";
 	}
 
 	/**
@@ -57,8 +57,8 @@ trait Settings_Fields {
 	 *
 	 * @param array $args
 	 */
-	static function add_tel_field_callback( array $args ) {
-		echo "<input id='{$args['id']}' type='{$args['type']}' name='{$args['name']}' class='{$args['field_class']}' value='{$args['value']}'>";
+	static function add_tel_field_callback( array $args ): void {
+		echo "<input id='{$args['id']}' type='{$args['type']}' name='{$args['name']}' class='{$args['class']}' value='{$args['value']}'>";
 	}
 
 	/**
@@ -66,17 +66,17 @@ trait Settings_Fields {
 	 *
 	 * @param array $args
 	 */
-	static function add_password_field_callback( array $args ) {
-		echo "<input id='{$args['id']}' type='{$args['type']}' name='{$args['name']}' class='{$args['field_class']}' value='{$args['value']}'>";
+	static function add_password_field_callback( array $args ): void {
+		echo "<input id='{$args['id']}' type='{$args['type']}' name='{$args['name']}' class='{$args['class']}' value='{$args['value']}'>";
 	}
 
 	/**
-	 * Output an URL field.
+	 * Output a URL field.
 	 *
 	 * @param array $args
 	 */
-	static function add_url_field_callback( array $args ) {
-		echo "<input id='{$args['id']}' type='{$args['type']}' name='{$args['name']}' class='{$args['field_class']}' value='{$args['value']}'>";
+	static function add_url_field_callback( array $args ): void {
+		echo "<input id='{$args['id']}' type='{$args['type']}' name='{$args['name']}' class='{$args['class']}' value='{$args['value']}'>";
 	}
 
 	/**
@@ -84,8 +84,8 @@ trait Settings_Fields {
 	 *
 	 * @param array $args
 	 */
-	static function add_color_field_callback( array $args ) {
-		echo "<input id='{$args['id']}' type='text' name='{$args['name']}' class='wp-color-picker-field {$args['field_class']}' value='{$args['value']}'>";
+	static function add_color_field_callback( array $args ): void {
+		echo "<input id='{$args['id']}' type='text' name='{$args['name']}' class='wp-color-picker-field {$args['class']}' value='{$args['value']}'>";
 	}
 
 	/**
@@ -93,11 +93,11 @@ trait Settings_Fields {
 	 *
 	 * @param array $args
 	 */
-	static function add_checkbox_field_callback( array $args ) {
+	static function add_checkbox_field_callback( array $args ): void {
 		$checked = checked( 1, $args['value'], false );
 
 		echo "<input type='hidden' name='{$args['name']}' value='0'>";
-		echo "<input id='{$args['id']}' type='{$args['type']}' name='{$args['name']}' class='{$args['field_class']}' value='1' {$checked}>";
+		echo "<input id='{$args['id']}' type='{$args['type']}' name='{$args['name']}' class='{$args['class']}' value='1' {$checked}>";
 	}
 
 	/**
@@ -105,11 +105,11 @@ trait Settings_Fields {
 	 *
 	 * @param array $args
 	 */
-	static function add_file_field_callback( array $args ) {
-		echo "<img class='media-preview' src='{$args['value']}' alt='", __( 'No image selected', 'platonic_for_generatepress' ), "' style='display:block;height:auto;width:auto;max-height:100px;margin-bottom: 0.25rem;'>";
+	static function add_file_field_callback( array $args ): void {
+		echo "<img class='media-preview' src='{$args['value']}' alt='", __( 'No image selected', 'platonic-framework' ), "' style='display:block;height:auto;width:auto;max-height:100px;margin-bottom: 0.25rem;'>";
 		echo "<input type='hidden' name='{$args['name']}' id='{$args['id']}' class='regular-text media-url' value='{$args['value']}'>";
-		echo "<input type='button' class='button media-browse' value='", __( 'Upload image', 'platonic_for_generatepress' ), "'>";
-		echo "<input type='button' class='button media-clear' value='", __( 'Clear', 'platonic_for_generatepress' ), "' style='margin-left: 0.25rem;'>";
+		echo "<input type='button' class='button media-browse' value='", __( 'Upload image', 'platonic-framework' ), "'>";
+		echo "<input type='button' class='button media-clear' value='", __( 'Clear', 'platonic-framework' ), "' style='margin-left: 0.25rem;'>";
 	}
 
 	/**
@@ -117,12 +117,12 @@ trait Settings_Fields {
 	 *
 	 * @param array $args
 	 */
-	static function add_radio_field_callback( array $args ) {
+	static function add_radio_field_callback( array $args ): void {
 		echo "<fieldset>";
 
 		foreach ( $args['options'] as $value => $label ) {
 			$selected_radio = checked( $value, $args['value'], false );
-			echo "<input id='{$args['id']}[{$value}]' type='{$args['type']}' name='{$args['name']}' class='{$args['field_class']}' value='{$value}' {$selected_radio}>";
+			echo "<input id='{$args['id']}[{$value}]' type='{$args['type']}' name='{$args['name']}' class='{$args['class']}' value='{$value}' {$selected_radio}>";
 			echo "<label for='{$args['id']}[{$value}]' >{$label}</label><br>";
 		}
 		echo "</fieldset>";
@@ -133,8 +133,8 @@ trait Settings_Fields {
 	 *
 	 * @param array $args
 	 */
-	static function add_select_field_callback( array $args ) {
-		echo "<select id='{$args['id']}' name='{$args['name']}' class='{$args['field_class']}'>";
+	static function add_select_field_callback( array $args ): void {
+		echo "<select id='{$args['id']}' name='{$args['name']}' class='{$args['class']}'>";
 
 		foreach ( $args['options'] as $value => $label ) {
 			$selected = selected( $value, $args['value'], false );

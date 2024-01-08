@@ -20,7 +20,7 @@ trait Options_Page {
 	 * @return string|false The resulting page's hook_suffix, or false if the user does not have the capability required.
 	 * @since 1.0
 	 */
-	final static function add_options_page( string $page_title, string $menu_title, string $capability = 'manage_options', int $position = null ) {
+	final static function add_options_page( string $page_title, string $menu_title, string $capability = 'manage_options', int $position = null ): string|false {
 		return add_options_page(
 			$page_title,
 			$menu_title,
@@ -53,7 +53,7 @@ trait Options_Page {
 	 * @return string The resulting page's hook_suffix.
 	 * @since 1.0
 	 */
-	final static function add_menu_page( string $page_title, string $menu_title, string $icon_url = '', string $capability = 'manage_options', int $position = null ) {
+	final static function add_menu_page( string $page_title, string $menu_title, string $icon_url = '', string $capability = 'manage_options', int $position = null ): string {
 		return add_menu_page(
 			$page_title,
 			$menu_title,
@@ -84,7 +84,7 @@ trait Options_Page {
 	 * @return string|false The resulting page's hook_suffix, or false if the user does not have the capability required.
 	 * @since 1.0
 	 */
-	final static function add_submenu_page( string $parent_slug, string $page_title, string $menu_title, string $capability = 'manage_options', int $position = null ) {
+	final static function add_submenu_page( string $parent_slug, string $page_title, string $menu_title, string $capability = 'manage_options', int $position = null ): string|false {
 		return add_submenu_page(
 			$parent_slug,
 			$page_title,
