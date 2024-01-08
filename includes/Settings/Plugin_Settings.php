@@ -17,12 +17,4 @@ abstract class Plugin_Settings extends Settings implements Plugin_Settings_Page_
 		register_uninstall_hook( __FILE__, array( static::class, 'on_plugin_uninstall' ) );
 	}
 
-	/**
-	 * We redefine this function so that you can extend it in your own class in case you need to.
-	 *
-	 * @return void
-	 */
-	function register_settings() {
-		parent::register_settings();
-	}
 }
