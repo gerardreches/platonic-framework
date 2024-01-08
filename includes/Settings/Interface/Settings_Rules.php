@@ -78,4 +78,14 @@ interface Settings_Rules {
 
 	static function create_settings_page();
 
+	static function pre_update_option( mixed $value, mixed $old_value, string $option ): mixed;
+
+	static function after_add_option( string $option, mixed $value ): void;
+
+	static function after_update_option( mixed $old_value, mixed $value, string $option ): void;
+
+	static function after_delete_option( string $option ): void;
+
+	static function sanitize_option( mixed $value, string $option, mixed $original_value ): mixed;
+
 }
