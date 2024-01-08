@@ -9,10 +9,11 @@ use Platonic\Framework\Settings\Trait\Sanitization;
 use Platonic\Framework\Settings\Trait\Settings_Fields;
 
 abstract class Settings implements Settings_Rules {
+
 	use Options_Page;
 	use Settings_Fields;
 	use Sanitization;
-    use Option_Management;
+	use Option_Management;
 
 	private array $registered_settings;
 	private array $registered_sections;
@@ -37,7 +38,7 @@ abstract class Settings implements Settings_Rules {
 	 * The name of an option to sanitize and save.
 	 */
 	const OPTION_NAME = null;
-    const DEFAULT = array();
+	const DEFAULT = array();
 
 	const SHOW_IN_REST = false;
 
@@ -87,7 +88,7 @@ abstract class Settings implements Settings_Rules {
 	/**
 	 * Enqueue the necessary scripts and styles for the Settings API.
 	 */
-	final static function enqueue_admin_scripts() {
+	final static function enqueue_admin_scripts(): void {
 		wp_enqueue_script( 'jquery' );
 
 		wp_enqueue_media();
@@ -117,7 +118,7 @@ abstract class Settings implements Settings_Rules {
 	/**
 	 * Returns all theme options
 	 */
-	final static function get_options() {
+	final static function get_options(): mixed {
 		return get_option( static::OPTION_NAME );
 	}
 
@@ -143,7 +144,7 @@ abstract class Settings implements Settings_Rules {
 	/**
 	 * Register the settings
 	 */
-	function register_settings() {
+	function register_settings(): void {
 
 		if ( ! empty( get_registered_settings()[ static::OPTION_NAME ] ) ) {
 			add_settings_error( static::OPTION_NAME, static::OPTION_NAME, "Setting <em>" . static::OPTION_NAME . "</em> is being registered twice. This may cause unexpected issues. Check your error log for more details.", 'warning' );
@@ -167,6 +168,8 @@ abstract class Settings implements Settings_Rules {
 	 * @param string $id
 	 * @param string $title
 	 * @param string $description
+	 *
+	 * @return string
 	 */
 	final static function add_settings_section( string $id, string $title, string $description = '' ): string {
 		add_settings_section(
@@ -251,7 +254,7 @@ abstract class Settings implements Settings_Rules {
 	 *
 	 * @return array
 	 */
-	final function sanitize_callback( array|null $options ) {
+	final function sanitize_callback( ?array $options ): ?array {
 
 		// TODO: Temporal
 		add_settings_error( static::OPTION_NAME, 'my_option_notice', "SANITIZATION CALLBACK EXECUTED FOR " . static::class, 'success' );
@@ -293,7 +296,7 @@ abstract class Settings implements Settings_Rules {
 	/**
 	 * Output the admin page containing the form with the fields that have been registered.
 	 */
-	final static function create_settings_page() {
+	final static function create_settings_page(): void {
 		do_action( 'platonic_before_settings_page' );
 		?>
         <div class='wrap'>

@@ -34,16 +34,14 @@ class Plugin_Settings_Page_Example extends Plugin_Settings implements Plugin_Set
 	/**
 	 * Add admin menu
 	 */
-	public function add_admin_menu() {
-		$this->add_options_page(
+	public function add_admin_menu(): void {
+		self::add_options_page(
 			__( 'Page Title', 'your_text_domain' ),
 			__( 'Menu Title', 'your_text_domain' )
 		);
 	}
 
-	public function register_settings() {
-		// The parent class will register the settings in the database.
-		parent::register_settings();
+	public function register_settings(): void {
 
 		// Register your sections and fields
 		$this->add_settings_section(
