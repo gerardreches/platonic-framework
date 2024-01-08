@@ -89,6 +89,14 @@ class Settings_Page_Example extends Settings implements Settings_Page_Rules {
 		);
 
 		$this->add_settings_field(
+			'number_field_example',
+			'first_section',
+			__( 'Number Field Title', 'your_text_domain' ),
+			__( 'Description for your number field.', 'your_text_domain' ),
+			'number'
+		);
+
+		$this->add_settings_field(
 			'email_field_example',
 			'first_section',
 			__( 'Email Field Title', 'your_text_domain' ),

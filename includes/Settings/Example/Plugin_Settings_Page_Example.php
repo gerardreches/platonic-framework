@@ -61,6 +61,14 @@ class Plugin_Settings_Page_Example extends Plugin_Settings implements Plugin_Set
 		);
 
 		$this->add_settings_field(
+			'number_field_example',
+			'first_section',
+			__( 'Number Field Title', 'your_text_domain' ),
+			__( 'Description for your number field.', 'your_text_domain' ),
+			'number'
+		);
+
+		$this->add_settings_field(
 			'email_field_example',
 			'first_section',
 			__( 'Email Field Title', 'your_text_domain' ),
@@ -130,34 +138,32 @@ class Plugin_Settings_Page_Example extends Plugin_Settings implements Plugin_Set
 	}
 
 	/**
-	 * The on_plugin_activation method is run when you activate your plugin.
+	 * The on_plugin_activation method is executed when you activate your plugin.
 	 * You would use this to provide a function to set up your plugin —
-	 * for example, creating some default settings in the options table.
+	 * for example, creating default settings in the options table.
 	 */
-	function on_plugin_activation() {
-		// TODO: Implement on_plugin_deactivation() method.
-
-		$updated_options = array(
-			'text_field_example' => $this->get_option( 'text_field_example', 'Default value if option not previously set' ),
-		);
-		//update_option( static::OPTION_NAME, $updated_options );
+	function on_plugin_activation(): void {
+		// TODO: Implement on_plugin_activation() method.
+		// add_option( self::OPTION_NAME, self::DEFAULT );
 	}
 
 	/**
-	 * The on_plugin_deactivation method is run when you deactivate your plugin.
+	 * The on_plugin_deactivation method is executed when you deactivate your plugin.
 	 * You would use this to provide a function that clears any
 	 * temporary data stored by your plugin.
 	 */
-	function on_plugin_deactivation() {
+	function on_plugin_deactivation(): void {
 		// TODO: Implement on_plugin_deactivation() method.
+		// delete_transient( $transient );
 	}
 
 	/**
-	 * The on_plugin_uninstall method is run after your plugin is deleted using the WordPress Admin.
+	 * The on_plugin_uninstall method is executed after your plugin is deleted through the WordPress Admin.
 	 * You would use this to delete all data created by your plugin,
 	 * such as any options that were added to the options table.
 	 */
-	static function on_plugin_uninstall() {
+	static function on_plugin_uninstall(): void {
 		// TODO: Implement on_plugin_uninstall() method.
+		// delete_option( self::OPTION_NAME ) || error_log( "Option " . self::OPTION_NAME . " couldn't be deleted on plugin uninstallation." );
 	}
 }

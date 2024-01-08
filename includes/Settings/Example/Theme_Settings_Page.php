@@ -4,6 +4,7 @@ namespace Platonic\Framework\Settings\Example;
 
 use Platonic\Framework\Settings\Interface\Theme_Settings_Page_Rules;
 use Platonic\Framework\Settings\Theme_Settings;
+use WP_Theme;
 
 /**
  * INTRODUCTION
@@ -58,6 +59,14 @@ class Theme_Settings_Page extends Theme_Settings implements Theme_Settings_Page_
 			__( 'Text Field Title', 'your_text_domain' ),
 			__( 'Description for your text field.', 'your_text_domain' ),
 			'text'
+		);
+
+		$this->add_settings_field(
+			'number_field_example',
+			'first_section',
+			__( 'Number Field Title', 'your_text_domain' ),
+			__( 'Description for your number field.', 'your_text_domain' ),
+			'number'
 		);
 
 		$this->add_settings_field(
@@ -130,27 +139,27 @@ class Theme_Settings_Page extends Theme_Settings implements Theme_Settings_Page_
 	}
 
 	/**
-	 * The on_theme_activation method is run when the blog’s theme is changed.
+	 * The on_theme_activation method is executed when the blog’s theme is changed.
 	 * Specifically, it is executed after the theme has been switched but before the next request.
 	 * You would use this method to do things when the theme is activated.
 	 */
-	function on_theme_activation( $new_theme ) {
+	function on_theme_activation( string $old_name, WP_Theme $old_theme ): void {
 		// TODO: Implement on_theme_activation() method.
-
-		$updated_options = array(
-			'text_field_example' => $this->get_option( 'text_field_example', 'Default value if option not previously set' ),
-		);
-		//update_option( static::OPTION_NAME, $updated_options );
+		// add_option( self::OPTION_NAME, self::DEFAULT );
 	}
 
 	/**
-	 * The on_theme_deactivation method is run when the blog’s theme is changed.
+	 * The on_theme_deactivation method is executed when the blog’s theme is changed.
 	 * Specifically, it fires after the theme has been switched but before the next request.
 	 * You would use this method to do things when the theme is deactivated.
 	 */
-	function on_theme_deactivation() {
+	function on_theme_deactivation( string $new_name, WP_Theme $new_theme, WP_Theme $old_theme ): void {
 		// TODO: Implement on_theme_deactivation() method.
+		// delete_transient( $transient );
+	}
 
-		//delete_option( static::OPTION_NAME );
+	function on_theme_deletion( string $stylesheet ): void {
+		// TODO: Implement on_theme_deletion() method.
+		// delete_option( self::OPTION_NAME ) || error_log( "Option " . self::OPTION_NAME . " couldn't be deleted on theme deletion." );
 	}
 }
