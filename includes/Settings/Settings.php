@@ -3,6 +3,7 @@
 namespace Platonic\Framework\Settings;
 
 use Platonic\Framework\Settings\Interface\Settings_Rules;
+use Platonic\Framework\Settings\Trait\Option_Management;
 use Platonic\Framework\Settings\Trait\Options_Page;
 use Platonic\Framework\Settings\Trait\Sanitization;
 use Platonic\Framework\Settings\Trait\Settings_Fields;
@@ -11,7 +12,10 @@ abstract class Settings implements Settings_Rules {
 	use Options_Page;
 	use Settings_Fields;
 	use Sanitization;
+    use Option_Management;
 
+	private array $registered_settings;
+	private array $registered_sections;
 	private array $registered_fields;
 
 	/**
@@ -20,6 +24,7 @@ abstract class Settings implements Settings_Rules {
 	 * to be compatible with sanitize_key().
 	 */
 	const MENU_SLUG = null;
+	const MENU_POSITION = null;
 
 	/**
 	 * A settings group name. Should correspond to an allowed option key name.
@@ -32,9 +37,11 @@ abstract class Settings implements Settings_Rules {
 	 * The name of an option to sanitize and save.
 	 */
 	const OPTION_NAME = null;
+    const DEFAULT = array();
 
-	const MENU_POSITION = null;
 	const SHOW_IN_REST = false;
+
+	const SHOW_SETTINGS_ERRORS = true;
 
 	/**
 	 * Settings class constructor.
@@ -50,6 +57,31 @@ abstract class Settings implements Settings_Rules {
 		if ( isset( $_GET['page'] ) && static::MENU_SLUG === $_GET['page'] ) {
 			add_action( 'admin_enqueue_scripts', array( static::class, 'enqueue_admin_scripts' ) );
 		}
+
+		/**
+		 * Filters the option before its value is (maybe) serialized and updated.
+		 */
+		add_filter( 'pre_update_option_' . static::OPTION_NAME, array( static::class, 'pre_update_option' ), 10, 3 );
+
+		/**
+		 * Fires after the option has been added.
+		 */
+		add_action( 'add_option_' . static::OPTION_NAME, array( static::class, 'after_add_option' ), 10, 2 );
+
+		/**
+		 * Fires after the value of the option has been successfully updated.
+		 */
+		add_action( 'update_option_' . static::OPTION_NAME, array( static::class, 'after_update_option' ), 10, 3 );
+
+		/**
+		 * Fires after the option has been deleted.
+		 */
+		add_action( 'delete_option_' . static::OPTION_NAME, array( static::class, 'after_delete_option' ), 10, 1 );
+
+		/**
+		 * Filters the option value following sanitization.
+		 */
+		add_filter( 'sanitize_option_' . static::OPTION_NAME, array( static::class, 'sanitize_option' ), 10, 3 );
 	}
 
 	/**
@@ -70,12 +102,14 @@ abstract class Settings implements Settings_Rules {
 			// The plugin has been symlinked and the previous enqueue method won't resolve.
 			$utils_path = plugin_dir_url( __FILE__ ) . 'utils.js';
 
-            // When using the Platonic Framework as a library, PLATONIC_FRAMEWORK_PLUGIN_DIR must be defined in your plugin or theme using the right path.
+			// When using the Platonic Framework as a library, PLATONIC_FRAMEWORK_PLUGIN_DIR must be defined in your plugin or theme using the right path.
 			if ( PLATONIC_FRAMEWORK_PLUGIN_DIR !== dirname( __DIR__, 2 ) ) {
 				$utils_path = trailingslashit( PLATONIC_FRAMEWORK_PLUGIN_DIR ) . 'includes/Settings/utils.js';
-			}else{
-			    error_log( 'WARNING: Platonic Framework has been symlinked. The script utils.js might not be loading correctly. If it is not loading correctly and you are using the Platonic Framework in your theme or plugin, please define the constant PLATONIC_FRAMEWORK_PLUGIN_DIR with the correct path to the Platonic Framework.' );
-            }
+			} else {
+				if ( ! defined( 'PLATONIC_FRAMEWORK_DISABLE_LOG' ) || false === PLATONIC_FRAMEWORK_DISABLE_LOG ) {
+					error_log( "WARNING: Platonic Framework has been symlinked. The script utils.js might not be loading correctly. If it is not loading correctly and you are using the Platonic Framework in your theme or plugin, please define the constant PLATONIC_FRAMEWORK_PLUGIN_DIR with the correct path to the Platonic Framework. To disable this warning, use define( 'PLATONIC_FRAMEWORK_DISABLE_LOG', true ) in your functions.php or your plugin main file." );
+				}
+			}
 		}
 		wp_enqueue_script( 'platonic-framework-utils', $utils_path );
 	}
@@ -95,7 +129,7 @@ abstract class Settings implements Settings_Rules {
 	 *
 	 * @return mixed
 	 */
-	final static function get_option( string $id, mixed $default_value = false ) {
+	final static function get_option( string $id, mixed $default_value = false ): mixed {
 		// Option might not be an array.
 		if ( is_null( static::OPTION_NAME ) ) {
 			return get_option( $id ) ?? $default_value;
@@ -124,7 +158,7 @@ abstract class Settings implements Settings_Rules {
 				'description'       => 'An array containing multiple options',
 				'sanitize_callback' => array( $this, 'sanitize_callback' ),
 				'show_in_rest'      => static::SHOW_IN_REST,
-				'default'           => array()
+				'default'           => static::DEFAULT ?? array()
 			)
 		);
 	}
@@ -134,7 +168,7 @@ abstract class Settings implements Settings_Rules {
 	 * @param string $title
 	 * @param string $description
 	 */
-	final static function add_settings_section( string $id, string $title, string $description = '' ) {
+	final static function add_settings_section( string $id, string $title, string $description = '' ): string {
 		add_settings_section(
 			$id,
 			$title,
@@ -143,6 +177,8 @@ abstract class Settings implements Settings_Rules {
 			},
 			static::class
 		);
+
+		return $id;
 	}
 
 	/**
@@ -157,36 +193,26 @@ abstract class Settings implements Settings_Rules {
 	 * values to show.
 	 *
 	 * @param string $id Slug-name to identify the field. Used in the 'id' attribute of tags.
+	 * @param string $title Formatted title for the field. Shown as the label for the field
+	 *                           during output.
+	 * @param string $description Formatted description for the field. Shown under the field
+	 *                           during output.
+	 * @param string $type The type of field.
 	 * @param string $section Optional. The slug-name of the section of the settings page
 	 *                           in which to show the box. Default 'default'.
-	 * @param string $title Formatted title of the field. Shown as the label for the field
-	 *                           during output.
-	 * @param string $description Formatted description of the field. Shown under the field
-	 *                           during output.
-	 * @param string $type The type of fieldslug-name of the settings page on which to show the section
-	 *                           (general, reading, writing, ...).
 	 * @param array $args {
 	 *     Optional. Extra arguments used when outputting the field.
 	 *
-	 * @type string $label_for When supplied, the setting title will be wrapped
-	 *                             in a `<label>` element, its `for` attribute populated
-	 *                             with this value.
-	 * @type string $class CSS Class to be added to the `<tr>` element when the
-	 *                             field is output.
-	 * @type string $field_class CSS Class to be added to the input element when the
-	 *                             field is output.
-	 * @type mixed $default Default value for the option on activation.
-	 * }
+	 * @return string
 	 * @since 1.0
-	 *
 	 */
-	final function add_settings_field( string $id, string $section, string $title, string $description, string $type, array $args = array() ) {
+	final function add_settings_field( string $id, string $type, string $title, string $description = '', string $section = 'default', array $args = array() ): string {
 		add_settings_field(
 			$id,
 			$title,
 			array( static::class, 'add_settings_field_callback' ),
 			static::class,
-			$section ?? 'default',
+			$section,
 			array_merge(
 				array(
 					'label_for'   => $id,
@@ -196,10 +222,13 @@ abstract class Settings implements Settings_Rules {
 					'type'        => $type,
 					'value'       => static::get_option( $id ),
 					'default'     => null,
-					'field_class' => '',
-					'placeholder' => '',
-					'rows'        => '10',
-					'cols'        => '50',
+					'class'       => null,
+					'placeholder' => null,
+					'rows'        => 10,
+					'cols'        => 50,
+					'min'         => null,
+					'max'         => null,
+					'step'        => 1,
 				),
 				$args
 			)
@@ -211,19 +240,25 @@ abstract class Settings implements Settings_Rules {
 			'value'   => static::get_option( $id ),
 			'default' => $args['default'] ?? null
 		);
+
+		return $id;
 	}
 
 	/**
 	 * Sanitize callback called on register_setting().
 	 *
-	 * @param array $options
+	 * @param array|null $options
 	 *
 	 * @return array
 	 */
-	final function sanitize_callback( array $options ) {
+	final function sanitize_callback( array|null $options ) {
+
+		// TODO: Temporal
+		add_settings_error( static::OPTION_NAME, 'my_option_notice', "SANITIZATION CALLBACK EXECUTED FOR " . static::class, 'success' );
+
 		if ( is_null( $options ) ) {
 			$options = array();
-			add_settings_error( static::OPTION_NAME, static::OPTION_NAME, "Something went wrong.", 'error' );
+			add_settings_error( static::OPTION_NAME, static::OPTION_NAME, "Something went wrong. $options is null.", 'error' );
 		}
 		// TODO: Temporal
 		add_settings_error( static::OPTION_NAME, 'my_option_notice', "<pre>" . print_r( $options, true ) . "</pre>", 'info' );
@@ -251,8 +286,6 @@ abstract class Settings implements Settings_Rules {
 		if ( is_array( $saved_options ) && is_array( $options ) ) {
 			$options = array_merge( $saved_options, $options );
 		}
-		// TODO: Temporal
-		add_settings_error( static::OPTION_NAME, 'my_option_notice', "SANITIZATION CALLBACK EXECUTED FOR " . static::class, 'success' );
 
 		return $options;
 	}
@@ -267,7 +300,9 @@ abstract class Settings implements Settings_Rules {
             <!-- Displays the title -->
             <h1><?php echo esc_html( get_admin_page_title() ); ?></h1>
             <!-- Displays error or updated notices -->
-			<?php //settings_errors(); ?>
+			<?php if ( static::SHOW_SETTINGS_ERRORS ) {
+				settings_errors();
+			} ?>
             <!-- The form must point to options.php -->
             <form action='options.php' method='POST'>
 				<?php
