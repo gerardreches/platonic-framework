@@ -53,7 +53,7 @@ abstract class Settings implements Settings_Rules {
 		add_action( 'admin_init', array( $this, 'register_settings' ) );
 
 		// TODO: REST API compatibility. Requires schema definition.
-		//add_action( 'rest_api_init', array( $this, 'register_settings' ) );
+		//add_action( 'rest_api_init', array( $this, 'add_settings' ) );
 
 		if ( isset( $_GET['page'] ) && static::MENU_SLUG === $_GET['page'] ) {
 			add_action( 'admin_enqueue_scripts', array( static::class, 'enqueue_admin_scripts' ) );
@@ -146,7 +146,7 @@ abstract class Settings implements Settings_Rules {
 	 */
 	function register_settings(): void {
 
-		if ( ! empty( get_registered_settings()[ static::OPTION_NAME ] ) ) {
+		if ( array_key_exists( static::OPTION_NAME, get_registered_settings() ) ) {
 			add_settings_error( static::OPTION_NAME, static::OPTION_NAME, "Setting <em>" . static::OPTION_NAME . "</em> is being registered twice. This may cause unexpected issues. Check your error log for more details.", 'warning' );
 			error_log( "Class " . get_class( $this ) . " is registering a setting named " . static::OPTION_NAME . " which was already registered. The setting's arguments will be overwritten, which may cause unexpected issues. Please, consider registering a new setting instead of an existent one." );
 		}
@@ -162,6 +162,8 @@ abstract class Settings implements Settings_Rules {
 				'default'           => static::DEFAULT ?? array()
 			)
 		);
+
+        $this->add_settings();
 	}
 
 	/**

@@ -23,7 +23,7 @@ use Platonic\Framework\Settings\Settings;
  * at all, so feel free to skip them. Don't let them overwhelm you,
  * it is really easy to create your settings page with the Platonic Framework.
  *
- * There are only 2 required methods: add_admin_menu() and register_settings()
+ * There are only 2 required methods: add_admin_menu() and add_settings()
  *
  */
 class Settings_Page_Example extends Settings implements Settings_Page_Rules {
@@ -69,7 +69,7 @@ class Settings_Page_Example extends Settings implements Settings_Page_Rules {
 		);
 	}
 
-	public function register_settings(): void {
+	public function add_settings(): void {
 
 		// Register your sections and fields
 		$this->add_settings_section(

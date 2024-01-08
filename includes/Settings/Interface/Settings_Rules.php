@@ -18,7 +18,9 @@ interface Settings_Rules {
 
 	static function add_submenu_page( string $parent_slug, string $page_title, string $menu_title, string $capability, int $position );
 
-	function register_settings();
+	function register_settings(): void;
+
+	function add_settings(): void;
 
 	static function add_settings_section( string $id, string $title, string $description );
 
