@@ -16,7 +16,7 @@ interface Settings_Rules {
 
 	function add_settings(): void;
 
-	static function add_settings_section( string $id, string $title, string $description );
+	static function add_settings_section( string $id, string $title, string $description, array $args = array() );
 
 	function add_settings_field( string $id, string $section, string $title, string $description, string $type, array $args );
 
@@ -46,7 +46,7 @@ interface Settings_Rules {
 
 	static function add_select_field_callback( array $args );
 
-	function sanitize_callback( array $options );
+	function sanitize_callback( array $option );
 
 	static function create_settings_page(): void;
 
