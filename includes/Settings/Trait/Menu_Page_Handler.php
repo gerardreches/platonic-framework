@@ -39,7 +39,7 @@ trait Menu_Page_Handler {
 			page_title: $page_title,
 			menu_title: $menu_title,
 			capability: $capability,
-			menu_slug: static::MENU_SLUG,
+			menu_slug: static::MENU_SLUG ?? sanitize_title( static::class ),
 			callback: array( static::class, 'create_settings_page' ),
 			icon_url: $icon_url,
 			position: $position ?? static::MENU_POSITION
@@ -71,7 +71,7 @@ trait Menu_Page_Handler {
 			page_title: $page_title,
 			menu_title: $menu_title,
 			capability: $capability,
-			menu_slug: static::MENU_SLUG,
+			menu_slug: static::MENU_SLUG ?? sanitize_title( static::class ),
 			callback: array( static::class, 'create_settings_page' ),
 			position: $position ?? static::MENU_POSITION
 		);
@@ -98,7 +98,7 @@ trait Menu_Page_Handler {
 			page_title: $page_title,
 			menu_title: $menu_title,
 			capability: $capability,
-			menu_slug: static::MENU_SLUG,
+			menu_slug: static::MENU_SLUG ?? sanitize_title( static::class ),
 			callback: array( static::class, 'create_settings_page' ),
 			position: $position ?? static::MENU_POSITION
 		);
