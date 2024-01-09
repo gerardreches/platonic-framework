@@ -32,7 +32,7 @@ trait Option_Lifecycle_Manager {
 		add_action( 'add_option_' . $option_name, array( static::class, 'after_add_option' ), 10, 2 );
 		add_action( 'update_option_' . $option_name, array( static::class, 'after_update_option' ), 10, 3 );
 		add_action( 'delete_option_' . $option_name, array( static::class, 'after_delete_option' ), 10, 1 );
-		add_filter( 'sanitize_option_' . $option_name, array( static::class, 'sanitize_option' ), 10, 3 );
+		add_filter( 'sanitize_option_' . $option_name, array( static::class, 'sanitize_option' ), 20, 3 );
 	}
 
 	/**
@@ -102,7 +102,7 @@ trait Option_Lifecycle_Manager {
 	 *
 	 * @return mixed                The sanitized option value.
 	 *
-	 * @note To be implemented by the class using this trait.
+	 * @note To be implemented by the class using this trait. The hook is set to trigger after the setting sanitize_callback.
 	 */
 	static function sanitize_option( mixed $value, string $option, mixed $original_value ): mixed {
 		// Sanitization logic specific to the class using this trait.
