@@ -23,16 +23,16 @@ trait Option_Lifecycle_Manager {
 	 * - After deleting an option.
 	 * - Sanitizing an option value.
 	 *
-	 * @param string $option_name The name of the option for which hooks should be added.
+	 * @param string $option The name of the option for which hooks should be added.
 	 *
 	 * @return void
 	 */
-	static function manage_option_lifecycle( string $option_name ): void {
-		add_filter( 'pre_update_option_' . $option_name, array( static::class, 'pre_update_option' ), 10, 3 );
-		add_action( 'add_option_' . $option_name, array( static::class, 'after_add_option' ), 10, 2 );
-		add_action( 'update_option_' . $option_name, array( static::class, 'after_update_option' ), 10, 3 );
-		add_action( 'delete_option_' . $option_name, array( static::class, 'after_delete_option' ), 10, 1 );
-		add_filter( 'sanitize_option_' . $option_name, array( static::class, 'sanitize_option' ), 20, 3 );
+	static function manage_option_lifecycle( string $option ): void {
+		add_filter( "pre_update_option_{$option}", array( static::class, 'pre_update_option' ), 10, 3 );
+		add_action( "add_option_{$option}", array( static::class, 'after_add_option' ), 10, 2 );
+		add_action( "update_option_{$option}", array( static::class, 'after_update_option' ), 10, 3 );
+		add_action( "delete_option_{$option}", array( static::class, 'after_delete_option' ), 10, 1 );
+		add_filter( "sanitize_option_{$option}", array( static::class, 'sanitize_option' ), 20, 3 );
 	}
 
 	/**
