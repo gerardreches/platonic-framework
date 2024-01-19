@@ -10,13 +10,13 @@ interface Settings_Rules {
 
 	static function get_option( string $id = null, mixed $default = false ): mixed;
 
-	function register_settings(): void;
+	static function register_settings(): void;
 
-	function add_settings(): void;
+	static function add_settings(): void;
 
 	static function add_settings_section( string $id, string $title, string $description, array $args = array() );
 
-	function add_settings_field( string $id, string $section, string $title, string $description, string $type, array $args );
+	static function add_settings_field( string $id, string $section, string $title, string $description, string $type, array $args );
 
 	static function add_settings_field_callback( array $args );
 
@@ -44,7 +44,7 @@ interface Settings_Rules {
 
 	static function add_select_field_callback( array $args );
 
-	function sanitize_callback( mixed $value ): mixed;
+	static function sanitize_callback( mixed $value ): mixed;
 
 	static function create_settings_page(): void;
 

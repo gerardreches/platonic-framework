@@ -51,7 +51,7 @@ abstract class Settings implements Settings_Rules {
 		}
 		add_action( 'admin_menu', array( static::class, 'add_admin_menu' ) );
 
-		add_action( 'admin_init', array( $this, 'register_settings' ) );
+		add_action( 'admin_init', array( static::class, 'register_settings' ) );
 
 		// TODO: REST API compatibility. Requires schema definition.
 		//add_action( 'rest_api_init', array( static::class, 'register_settings' ) );
@@ -129,7 +129,7 @@ abstract class Settings implements Settings_Rules {
 	 *
 	 * @note TODO: Make static and allow parameters.
 	 */
-	function register_settings(): void {
+	static function register_settings(): void {
 
 		if ( array_key_exists( static::OPTION_NAME, get_registered_settings() ) ) {
 			add_settings_error( static::OPTION_NAME, static::OPTION_NAME, "Setting <em>" . static::OPTION_NAME . "</em> is being registered twice. This may cause unexpected issues. Check your error log for more details.", 'warning' );
@@ -142,14 +142,14 @@ abstract class Settings implements Settings_Rules {
 			args: array(
 				'type'              => 'array',
 				'description'       => 'An array containing multiple options',
-				'sanitize_callback' => array( $this, 'sanitize_callback' ),
+				'sanitize_callback' => array( static::class, 'sanitize_callback' ),
 				'show_in_rest'      => static::SHOW_IN_REST,
 				'default'           => static::DEFAULT ?? array()
 			)
 		);
 
 		// TODO: Send useful parameters.
-		$this->add_settings();
+		static::add_settings();
 	}
 
 	/**
@@ -193,9 +193,8 @@ abstract class Settings implements Settings_Rules {
 	 *     Optional. Extra arguments used when outputting the field.
 	 *
 	 * @return string
-	 * @since 1.0
 	 */
-	final function add_settings_field( string $id, string $type, string $title, string $description = '', string $section = 'default', array $args = array() ): string {
+	final static function add_settings_field( string $id, string $type, string $title, string $description = '', string $section = 'default', array $args = array() ): string {
 		add_settings_field(
 			id: $id,
 			title: $title,
@@ -234,7 +233,7 @@ abstract class Settings implements Settings_Rules {
 	 * @return array|null
 	 * @noinspection PhpUndefinedConstantInspection
 	 */
-	final function sanitize_callback( mixed $value ): mixed {
+	final static function sanitize_callback( mixed $value ): mixed {
 
 		$option = str_replace( 'sanitize_option_', '', current_filter() );
 
