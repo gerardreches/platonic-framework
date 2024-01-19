@@ -49,12 +49,12 @@ abstract class Settings implements Settings_Rules {
 		if ( empty( static::OPTION_NAME ) || ! is_string( static::OPTION_NAME ) ) {
 			_doing_it_wrong( __METHOD__, __( "The constant OPTION_NAME has to be set as a non-empty string. Remember to use a unique name to avoid conflicts.", 'platonic-framework' ), '1.0' );
 		}
-		add_action( 'admin_menu', array( $this, 'add_admin_menu' ) );
+		add_action( 'admin_menu', array( static::class, 'add_admin_menu' ) );
 
 		add_action( 'admin_init', array( $this, 'register_settings' ) );
 
 		// TODO: REST API compatibility. Requires schema definition.
-		//add_action( 'rest_api_init', array( $this, 'register_settings' ) );
+		//add_action( 'rest_api_init', array( static::class, 'register_settings' ) );
 
 		add_action( 'admin_enqueue_scripts', array( static::class, 'enqueue_admin_scripts' ), 10, 1 );
 
