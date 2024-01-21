@@ -51,7 +51,7 @@ abstract class Settings implements Settings_Rules {
 		}
 		add_action( 'admin_menu', array( static::class, 'add_admin_menu' ) );
 
-		add_action( 'admin_init', array( static::class, 'register_settings' ) );
+		add_action( 'admin_init', array( static::class, 'register' ) );
 
 		// TODO: REST API compatibility. Requires schema definition.
 		//add_action( 'rest_api_init', array( static::class, 'register_settings' ) );
@@ -122,34 +122,43 @@ abstract class Settings implements Settings_Rules {
 		return is_null( $id ) ? $option ?? $default_value : $option[ $id ] ?? $default_value;
 	}
 
-	/**
-	 * Register the settings
-	 *
-	 * @return void
-	 *
-	 * @note TODO: Make static and allow parameters.
-	 */
-	static function register_settings(): void {
+	final static function register_setting( string $option_name, array $args = array() ): void {
 
-		if ( array_key_exists( static::OPTION_NAME, get_registered_settings() ) ) {
-			add_settings_error( static::OPTION_NAME, static::OPTION_NAME, "Setting <em>" . static::OPTION_NAME . "</em> is being registered twice. This may cause unexpected issues. Check your error log for more details.", 'warning' );
-			error_log( "Class " . static::class . " is registering a setting named " . static::OPTION_NAME . " which was already registered. The setting's arguments will be overwritten, which may cause unexpected issues. Please, consider registering a setting with a different name." );
+		if ( array_key_exists( $option_name, get_registered_settings() ) ) {
+			add_settings_error( $option_name, "{$option_name}-warning", "Setting <em>{$option_name}</em> is being registered twice. This may cause unexpected issues. Check your error log for more details.", 'warning' );
+			error_log( "Class " . static::class . " is registering a setting named {$option_name} which was already registered. The setting arguments will be overwritten, which may lead to unexpected issues. Please, consider registering a setting with a different name." );
 		}
 
 		register_setting(
 			option_group: static::OPTION_GROUP ?? static::OPTION_NAME,
+			option_name: $option_name,
+			args: array_merge(
+				array(
+					'sanitize_callback' => array( static::class, 'sanitize_callback' ),
+					'show_in_rest'      => static::SHOW_IN_REST
+				),
+				$args
+			)
+		);
+	}
+
+	/**
+	 * Register the settings
+	 *
+	 * @return void
+	 */
+	static function register(): void {
+
+		static::register_setting(
 			option_name: static::OPTION_NAME,
 			args: array(
-				'type'              => 'array',
-				'description'       => 'An array containing multiple options',
-				'sanitize_callback' => array( static::class, 'sanitize_callback' ),
-				'show_in_rest'      => static::SHOW_IN_REST,
-				'default'           => static::DEFAULT ?? array()
+				'type'        => 'array',
+				'description' => 'An array containing multiple options',
+				'default'     => static::DEFAULT ?? false
 			)
 		);
 
-		// TODO: Send useful parameters.
-		static::add_settings();
+		static::add_settings( static::OPTION_NAME, static::DEFAULT );
 	}
 
 	/**
