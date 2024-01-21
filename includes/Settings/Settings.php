@@ -2,12 +2,13 @@
 
 namespace Platonic\Framework\Settings;
 
+use Platonic\Framework\Settings\Interface\Field_Callbacks;
 use Platonic\Framework\Settings\Interface\Settings_Rules;
 use Platonic\Framework\Settings\Trait\Settings_Fields;
 use Platonic\Framework\Settings\Trait\Sanitization;
 use Platonic\Framework\Settings\Trait\Option_Lifecycle_Manager;
 
-abstract class Settings implements Settings_Rules {
+abstract class Settings implements Settings_Rules, Field_Callbacks {
 
 	use Settings_Fields;
 	use Sanitization;
