@@ -2,7 +2,7 @@
 
 namespace Platonic\Framework\Settings\Interface;
 
-interface Field_Callbacks {
+interface Settings_Field_Callback {
 
 	static function add_settings_field_callback( array $args );
 

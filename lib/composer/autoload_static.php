@@ -28,6 +28,7 @@ class ComposerStaticInitef637136d5fae12e96d0c7e8c829c969
         'Platonic\\Framework\\Settings\\Example\\Settings_Page_Example' => __DIR__ . '/../..' . '/includes/Settings/Example/Settings_Page_Example.php',
         'Platonic\\Framework\\Settings\\Example\\Theme_Settings_Page' => __DIR__ . '/../..' . '/includes/Settings/Example/Theme_Settings_Page.php',
         'Platonic\\Framework\\Settings\\Interface\\Plugin_Settings_Page_Rules' => __DIR__ . '/../..' . '/includes/Settings/Interface/Plugin_Settings_Page_Rules.php',
+        'Platonic\\Framework\\Settings\\Interface\\Settings_Field_Callback' => __DIR__ . '/../..' . '/includes/Settings/Interface/Settings_Field_Callback.php',
         'Platonic\\Framework\\Settings\\Interface\\Settings_Page_Rules' => __DIR__ . '/../..' . '/includes/Settings/Interface/Settings_Page_Rules.php',
         'Platonic\\Framework\\Settings\\Interface\\Settings_Rules' => __DIR__ . '/../..' . '/includes/Settings/Interface/Settings_Rules.php',
         'Platonic\\Framework\\Settings\\Interface\\Theme_Settings_Page_Rules' => __DIR__ . '/../..' . '/includes/Settings/Interface/Theme_Settings_Page_Rules.php',

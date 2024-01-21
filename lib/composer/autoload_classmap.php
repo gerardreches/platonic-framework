@@ -13,6 +13,7 @@ return array(
     'Platonic\\Framework\\Settings\\Example\\Settings_Page_Example' => $baseDir . '/includes/Settings/Example/Settings_Page_Example.php',
     'Platonic\\Framework\\Settings\\Example\\Theme_Settings_Page' => $baseDir . '/includes/Settings/Example/Theme_Settings_Page.php',
     'Platonic\\Framework\\Settings\\Interface\\Plugin_Settings_Page_Rules' => $baseDir . '/includes/Settings/Interface/Plugin_Settings_Page_Rules.php',
+    'Platonic\\Framework\\Settings\\Interface\\Settings_Field_Callback' => $baseDir . '/includes/Settings/Interface/Settings_Field_Callback.php',
     'Platonic\\Framework\\Settings\\Interface\\Settings_Page_Rules' => $baseDir . '/includes/Settings/Interface/Settings_Page_Rules.php',
     'Platonic\\Framework\\Settings\\Interface\\Settings_Rules' => $baseDir . '/includes/Settings/Interface/Settings_Rules.php',
     'Platonic\\Framework\\Settings\\Interface\\Theme_Settings_Page_Rules' => $baseDir . '/includes/Settings/Interface/Theme_Settings_Page_Rules.php',
