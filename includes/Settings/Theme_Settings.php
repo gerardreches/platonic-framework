@@ -4,7 +4,7 @@ namespace Platonic\Framework\Settings;
 
 use Platonic\Framework\Settings\Interface\Theme_Settings_Page_Rules;
 
-abstract class Theme_Settings extends Settings implements Theme_Settings_Page_Rules {
+abstract class Theme_Settings extends Settings_Page implements Theme_Settings_Page_Rules {
 
 	/**
 	 * Theme_Settings constructor.

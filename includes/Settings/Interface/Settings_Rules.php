@@ -6,8 +6,6 @@ interface Settings_Rules {
 
 	public function __construct();
 
-	static function enqueue_admin_scripts( string $hook_suffix ): void;
-
 	static function get_option( string $id = null, mixed $default = false ): mixed;
 
 	static function register(): void;
@@ -45,7 +43,5 @@ interface Settings_Rules {
 	static function add_select_field_callback( array $args );
 
 	static function sanitize_callback( mixed $value ): mixed;
-
-	static function create_settings_page(): void;
 
 }

@@ -4,7 +4,7 @@ namespace Platonic\Framework\Settings;
 
 use Platonic\Framework\Settings\Interface\Plugin_Settings_Page_Rules;
 
-abstract class Plugin_Settings extends Settings implements Plugin_Settings_Page_Rules {
+abstract class Plugin_Settings extends Settings_Page implements Plugin_Settings_Page_Rules {
 
 	/**
 	 * Plugin_Settings constructor.

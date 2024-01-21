@@ -18,6 +18,7 @@ return array(
     'Platonic\\Framework\\Settings\\Interface\\Theme_Settings_Page_Rules' => $baseDir . '/includes/Settings/Interface/Theme_Settings_Page_Rules.php',
     'Platonic\\Framework\\Settings\\Plugin_Settings' => $baseDir . '/includes/Settings/Plugin_Settings.php',
     'Platonic\\Framework\\Settings\\Settings' => $baseDir . '/includes/Settings/Settings.php',
+    'Platonic\\Framework\\Settings\\Settings_Page' => $baseDir . '/includes/Settings/Settings_Page.php',
     'Platonic\\Framework\\Settings\\Theme_Settings' => $baseDir . '/includes/Settings/Theme_Settings.php',
     'Platonic\\Framework\\Settings\\Trait\\Menu_Page_Handler' => $baseDir . '/includes/Settings/Trait/Menu_Page_Handler.php',
     'Platonic\\Framework\\Settings\\Trait\\Option_Lifecycle_Manager' => $baseDir . '/includes/Settings/Trait/Option_Lifecycle_Manager.php',
