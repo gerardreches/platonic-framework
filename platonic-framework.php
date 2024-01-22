@@ -50,7 +50,7 @@ if ( ! defined( 'PLATONIC_FRAMEWORK_PLUGIN_BASENAME' ) ) {
 	define( 'PLATONIC_FRAMEWORK_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 }
 
-function load_platonic_framework_textdomain () {
+function load_platonic_framework_textdomain (): void {
 	load_plugin_textdomain(
 		'platonic-framework',
 		false,
