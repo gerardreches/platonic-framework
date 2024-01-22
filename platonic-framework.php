@@ -57,6 +57,6 @@ function load_platonic_framework_textdomain () {
 		dirname( PLATONIC_FRAMEWORK_PLUGIN_BASENAME ) . '/languages/'
 	);
 }
-add_action( 'plugins_loaded', 'load_plugin_textdomain' );
+add_action( 'plugins_loaded', 'load_platonic_framework_textdomain' );
 
 require_once( plugin_dir_path( __FILE__ ) . '/lib/autoload.php' );
