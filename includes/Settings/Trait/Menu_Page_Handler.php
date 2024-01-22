@@ -13,6 +13,11 @@ namespace Platonic\Framework\Settings\Trait;
 trait Menu_Page_Handler {
 
 	/**
+	 * @var array The resulting page's hook_suffix.
+	 */
+	protected static array $page_hook_suffix = array();
+
+	/**
 	 * Add a top-level menu page.
 	 *
 	 * This function takes a capability which will be used to determine whether a page is included in the menu.
@@ -35,7 +40,8 @@ trait Menu_Page_Handler {
 	 * @since 1.0
 	 */
 	final static function add_menu_page( string $page_title, string $menu_title, string $icon_url = '', string $capability = 'manage_options', int $position = null ): string {
-		return add_menu_page(
+
+		return self::$page_hook_suffix[ static::class ] = add_menu_page(
 			page_title: $page_title,
 			menu_title: $menu_title,
 			capability: $capability,
@@ -66,7 +72,7 @@ trait Menu_Page_Handler {
 	 * @since 1.0
 	 */
 	final static function add_submenu_page( string $parent_slug, string $page_title, string $menu_title, string $capability = 'manage_options', int $position = null ): string|false {
-		return add_submenu_page(
+		return self::$page_hook_suffix[ static::class ] = add_submenu_page(
 			parent_slug: $parent_slug,
 			page_title: $page_title,
 			menu_title: $menu_title,
@@ -94,7 +100,7 @@ trait Menu_Page_Handler {
 	 * @since 1.0
 	 */
 	final static function add_options_page( string $page_title, string $menu_title, string $capability = 'manage_options', int $position = null ): string|false {
-		return add_options_page(
+		return self::$page_hook_suffix[ static::class ] = add_options_page(
 			page_title: $page_title,
 			menu_title: $menu_title,
 			capability: $capability,
