@@ -13,9 +13,15 @@ namespace Platonic\Framework\Settings\Trait;
 trait Menu_Page_Handler {
 
 	/**
-	 * @var array The resulting page's hook_suffix.
+	 * @var array Stores the resulting page's hook_suffix for each class using this Trait.
+	 *
+	 * @note Don't use this property directly. Use the static methods instead.
 	 */
-	protected static array $page_hook_suffix = array();
+	private static array $page_hook_suffix = array();
+
+	final static function get_page_hook_suffix( string $class_name = null ): string {
+		return self::$page_hook_suffix[ $class_name ?? static::class ];
+	}
 
 	/**
 	 * Add a top-level menu page.
@@ -39,7 +45,7 @@ trait Menu_Page_Handler {
 	 * @return string The resulting page's hook_suffix.
 	 * @since 1.0
 	 */
-	final static function add_menu_page( string $page_title, string $menu_title, string $icon_url = '', string $capability = 'manage_options', int $position = null ): string {
+	final static protected function add_menu_page( string $page_title, string $menu_title, string $icon_url = '', string $capability = 'manage_options', int $position = null ): string {
 
 		return self::$page_hook_suffix[ static::class ] = add_menu_page(
 			page_title: $page_title,
@@ -71,7 +77,7 @@ trait Menu_Page_Handler {
 	 * @return string|false The resulting page's hook_suffix, or false if the user does not have the capability required.
 	 * @since 1.0
 	 */
-	final static function add_submenu_page( string $parent_slug, string $page_title, string $menu_title, string $capability = 'manage_options', int $position = null ): string|false {
+	final static protected function add_submenu_page( string $parent_slug, string $page_title, string $menu_title, string $capability = 'manage_options', int $position = null ): string|false {
 		return self::$page_hook_suffix[ static::class ] = add_submenu_page(
 			parent_slug: $parent_slug,
 			page_title: $page_title,
@@ -99,7 +105,7 @@ trait Menu_Page_Handler {
 	 * @return string|false The resulting page's hook_suffix, or false if the user does not have the capability required.
 	 * @since 1.0
 	 */
-	final static function add_options_page( string $page_title, string $menu_title, string $capability = 'manage_options', int $position = null ): string|false {
+	final static protected function add_options_page( string $page_title, string $menu_title, string $capability = 'manage_options', int $position = null ): string|false {
 		return self::$page_hook_suffix[ static::class ] = add_options_page(
 			page_title: $page_title,
 			menu_title: $menu_title,

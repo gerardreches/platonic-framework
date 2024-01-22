@@ -37,7 +37,7 @@ abstract class Settings_Page extends Settings implements Settings_Page_Rules {
 	 * @return void
 	 */
 	static function enqueue_admin_scripts( string $hook_suffix ): void {
-		if ( self::$page_hook_suffix[ static::class ] === $hook_suffix ) {
+		if ( self::get_page_hook_suffix() === $hook_suffix ) {
 			wp_enqueue_script( 'jquery' );
 
 			wp_enqueue_media();
