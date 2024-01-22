@@ -2,13 +2,14 @@
 
 namespace Platonic\Framework\Settings;
 
+use Platonic\Framework\Settings\Interface\Settings_API;
 use Platonic\Framework\Settings\Interface\Settings_Field_Callback;
 use Platonic\Framework\Settings\Interface\Settings_Rules;
 use Platonic\Framework\Settings\Trait\Settings_Fields;
 use Platonic\Framework\Settings\Trait\Sanitization;
 use Platonic\Framework\Settings\Trait\Option_Lifecycle_Manager;
 
-abstract class Settings implements Settings_Rules, Settings_Field_Callback {
+abstract class Settings implements Settings_API, Settings_Rules, Settings_Field_Callback {
 
 	use Settings_Fields;
 	use Sanitization;
@@ -67,7 +68,7 @@ abstract class Settings implements Settings_Rules, Settings_Field_Callback {
 	final static function register_setting( string $option_name, array $args = array() ): void {
 
 		if ( array_key_exists( $option_name, get_registered_settings() ) ) {
-			add_settings_error( $option_name, "{$option_name}-warning", "Setting <em>{$option_name}</em> is being registered twice. This may cause unexpected issues. Check your error log for more details.", 'warning' );
+			add_settings_error( $option_name, 'duplicated', "Setting <em>{$option_name}</em> is being registered twice. This may cause unexpected issues. Check your error log for more details.", 'warning' );
 			error_log( "Class " . static::class . " is registering a setting named {$option_name} which was already registered. The setting arguments will be overwritten, which may lead to unexpected issues. Please, consider registering a setting with a different name." );
 		}
 
@@ -81,6 +82,14 @@ abstract class Settings implements Settings_Rules, Settings_Field_Callback {
 				),
 				$args
 			)
+		);
+	}
+
+	static function unregister_setting( string $option_name = null, callable $deprecated = null ): void {
+		unregister_setting(
+			option_group: static::OPTION_GROUP ?? static::OPTION_NAME,
+			option_name: $option_name ?? static::OPTION_NAME,
+			deprecated: $deprecated ?: ''
 		);
 	}
 

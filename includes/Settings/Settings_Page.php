@@ -16,14 +16,13 @@ abstract class Settings_Page extends Settings implements Settings_Page_Rules {
 	 */
 	const MENU_SLUG = null;
 	const MENU_POSITION = null;
-	const ADMIN_PAGE = null;
 	const DISABLE_SETTINGS_ERRORS = false;
 
 	/**
 	 * Settings class constructor.
 	 */
 	public function __construct() {
-        parent::__construct();
+		parent::__construct();
 
 		add_action( 'admin_menu', array( static::class, 'add_admin_menu' ) );
 
@@ -38,14 +37,7 @@ abstract class Settings_Page extends Settings implements Settings_Page_Rules {
 	 * @return void
 	 */
 	static function enqueue_admin_scripts( string $hook_suffix ): void {
-
-		/**
-		 * TODO: Load only when necessary by using $hook_suffix
-		 *
-		 * @note Ideally it should be done without requiring a new constant
-		 */
-		//if ( isset( $_GET['page'] ) && static::MENU_SLUG === $_GET['page'] ) { }
-		if ( null === static::ADMIN_PAGE || static::ADMIN_PAGE === $hook_suffix ) {
+		if ( self::$page_hook_suffix[ static::class ] === $hook_suffix ) {
 			wp_enqueue_script( 'jquery' );
 
 			wp_enqueue_media();
@@ -73,32 +65,57 @@ abstract class Settings_Page extends Settings implements Settings_Page_Rules {
 		}
 	}
 
+	final static function settings_fields(): void {
+		settings_fields( static::OPTION_GROUP ?? static::OPTION_NAME );
+	}
+
+	final static function do_settings_sections(): void {
+		do_settings_sections( static::class );
+	}
+
+	final static function do_settings_fields( string $section ): void {
+		do_settings_fields( static::class, $section );
+	}
+
+	final static function settings_errors( bool $sanitize = false, bool $hide_on_update = false ): void {
+		if ( static::DISABLE_SETTINGS_ERRORS ) {
+			// TODO: Remove all debugging settings errors
+			settings_errors( static::OPTION_NAME, $sanitize, $hide_on_update );
+		} else {
+			settings_errors( static::OPTION_NAME, $sanitize, $hide_on_update );
+		}
+	}
+
 	/**
 	 * Output the admin page containing the form with the fields that have been registered.
 	 */
-	static function create_settings_page(): void {
-		do_action( 'platonic_before_settings_page' );
+	final static function create_settings_page(): void {
+		echo "<div id='" . esc_attr( self::$page_hook_suffix[ static::class ] ) . "'>";
+		do_action( 'platonic_framework_before_settings_page' );
+		static::create_form();
+		do_action( 'platonic_framework_after_settings_page' );
+		echo '</div>';
+	}
+
+	static function create_form(): void {
 		?>
-		<div class='wrap'>
-			<!-- Displays the title -->
-			<h1><?php echo esc_html( get_admin_page_title() ); ?></h1>
-			<!-- Displays error or updated notices -->
-			<?php if ( ! static::DISABLE_SETTINGS_ERRORS ) {
-				settings_errors();
-			} ?>
-			<!-- The form must point to options.php -->
-			<form action='options.php' method='POST'>
+        <div class='wrap'>
+            <!-- Displays the title -->
+            <h1><?php echo esc_html( get_admin_page_title() ); ?></h1>
+            <!-- Displays error or updated notices -->
+			<?php self::settings_errors(); ?>
+            <!-- The form must point to options.php -->
+            <form action='options.php' method='POST'>
 				<?php
 				// Output the necessary hidden fields : nonce, action, and option page name
-				settings_fields( static::OPTION_GROUP ?? static::OPTION_NAME );
+				self::settings_fields();
 				// Loops through registered sections and fields for the page slug passed in, and display them.
-				do_settings_sections( static::class );
+				self::do_settings_sections();
 				// Displays a submit button
-				submit_button();
+				submit_button( text: null, type: 'primary', name: 'submit', wrap: true, other_attributes: null );
 				?>
-			</form>
-		</div>
+            </form>
+        </div>
 		<?php
-		do_action( 'platonic_after_settings_page' );
 	}
 }

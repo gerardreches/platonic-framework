@@ -13,4 +13,6 @@ interface Settings_Page_Rules extends Settings_Rules {
 	static function add_settings( string $option_name, mixed $default ): void;
 
 	static function create_settings_page(): void;
+
+	static function create_form(): void;
 }
