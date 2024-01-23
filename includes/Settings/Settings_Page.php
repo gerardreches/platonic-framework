@@ -37,32 +37,34 @@ abstract class Settings_Page extends Settings implements Settings_Page_Rules {
 	 * @return void
 	 */
 	static function enqueue_admin_scripts( string $hook_suffix ): void {
-		if ( self::get_page_hook_suffix() === $hook_suffix ) {
-			wp_enqueue_script( 'jquery' );
-
-			wp_enqueue_media();
-
-			wp_enqueue_style( 'wp-color-picker' );
-			wp_enqueue_script( 'wp-color-picker' );
-
-			if ( str_contains( __DIR__, ABSPATH ) ) {
-				// Enqueue script taking into account that Platonic Framework may be either a plugin or a library used in another plugin or theme.
-				$utils_path = trailingslashit( str_replace( ABSPATH, '/', __DIR__ ) ) . 'utils.js';
-			} else {
-				// The plugin has been symlinked and the previous enqueue method won't resolve.
-				$utils_path = plugin_dir_url( __FILE__ ) . 'utils.js';
-
-				// When using the Platonic Framework as a library, PLATONIC_FRAMEWORK_PLUGIN_DIR must be defined in your plugin or theme using the right path.
-				if ( PLATONIC_FRAMEWORK_PLUGIN_DIR !== dirname( __DIR__, 2 ) ) {
-					$utils_path = trailingslashit( PLATONIC_FRAMEWORK_PLUGIN_DIR ) . 'includes/Settings/utils.js';
-				} else {
-					if ( ! defined( 'PLATONIC_FRAMEWORK_DISABLE_LOG' ) || ! PLATONIC_FRAMEWORK_DISABLE_LOG ) {
-						error_log( "WARNING: Platonic Framework has been symlinked. The script utils.js might not be loading correctly. If it is not loading correctly and you are using the Platonic Framework in your theme or plugin, please define the constant PLATONIC_FRAMEWORK_PLUGIN_DIR with the correct path to the Platonic Framework. To disable this warning, use define( 'PLATONIC_FRAMEWORK_DISABLE_LOG', true ) in your functions.php or your plugin main file." );
-					}
-				}
-			}
-			wp_enqueue_script( 'platonic-framework-utils', $utils_path );
+		if ( self::get_page_hook_suffix() !== $hook_suffix ) {
+            return;
 		}
+
+        wp_enqueue_script( 'jquery' );
+
+        wp_enqueue_media();
+
+        wp_enqueue_style( 'wp-color-picker' );
+        wp_enqueue_script( 'wp-color-picker' );
+
+        if ( str_contains( __DIR__, ABSPATH ) ) {
+            // Enqueue script taking into account that Platonic Framework may be either a plugin or a library used in another plugin or theme.
+            $utils_path = trailingslashit( str_replace( ABSPATH, '/', __DIR__ ) ) . 'utils.js';
+        } else {
+            // The plugin has been symlinked and the previous enqueue method won't resolve.
+            $utils_path = plugin_dir_url( __FILE__ ) . 'utils.js';
+
+            // When using the Platonic Framework as a library, PLATONIC_FRAMEWORK_PLUGIN_DIR must be defined in your plugin or theme using the right path.
+            if ( PLATONIC_FRAMEWORK_PLUGIN_DIR !== dirname( __DIR__, 2 ) ) {
+                $utils_path = trailingslashit( PLATONIC_FRAMEWORK_PLUGIN_DIR ) . 'includes/Settings/utils.js';
+            } else {
+                if ( ! defined( 'PLATONIC_FRAMEWORK_DISABLE_LOG' ) || ! PLATONIC_FRAMEWORK_DISABLE_LOG ) {
+                    error_log( "WARNING: Platonic Framework has been symlinked. The script utils.js might not be loading correctly. If it is not loading correctly and you are using the Platonic Framework in your theme or plugin, please define the constant PLATONIC_FRAMEWORK_PLUGIN_DIR with the correct path to the Platonic Framework. To disable this warning, use define( 'PLATONIC_FRAMEWORK_DISABLE_LOG', true ) in your functions.php or your plugin main file." );
+                }
+            }
+        }
+        wp_enqueue_script( 'platonic-framework-utils', $utils_path );
 	}
 
 	final static function settings_fields(): void {
@@ -90,7 +92,7 @@ abstract class Settings_Page extends Settings implements Settings_Page_Rules {
 	 * Output the admin page containing the form with the fields that have been registered.
 	 */
 	final static function create_settings_page(): void {
-		echo "<div id='" . esc_attr( self::$page_hook_suffix[ static::class ] ) . "'>";
+		echo "<div id='" . esc_attr( self::get_page_hook_suffix() ) . "'>";
 		do_action( 'platonic_framework_before_settings_page' );
 		static::create_form();
 		do_action( 'platonic_framework_after_settings_page' );
