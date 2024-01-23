@@ -5,29 +5,49 @@ namespace Platonic\Framework\Settings;
 use Platonic\Framework\Settings\Interface\Settings_API;
 use Platonic\Framework\Settings\Interface\Settings_Field_Callback;
 use Platonic\Framework\Settings\Interface\Settings_Rules;
+use Platonic\Framework\Settings\Trait\Options_API_Wrapper;
 use Platonic\Framework\Settings\Trait\Settings_Fields;
 use Platonic\Framework\Settings\Trait\Sanitization;
 use Platonic\Framework\Settings\Trait\Option_Lifecycle_Manager;
 
 abstract class Settings implements Settings_API, Settings_Rules, Settings_Field_Callback {
 
+	use Options_API_Wrapper;
+	use Option_Lifecycle_Manager;
 	use Settings_Fields;
 	use Sanitization;
-	use Option_Lifecycle_Manager;
 
 	/**
 	 * A settings group name. Should correspond to an allowed option key name.
 	 * Default allowed option key names include 'general', 'discussion',
 	 * 'media', 'reading', 'writing', 'misc', 'options', and 'privacy'.
+	 *
+	 * @type string
+	 * @note This is not the same as the option name. This value is not stored in the database.
 	 */
 	const OPTION_GROUP = null;
 
 	/**
-	 * The name of an option to sanitize and save.
+	 * Name of the option to register, sanitize, and save. Expected to not be SQL-escaped.
+	 * Must be unique. Use snake_case as for WordPress Naming Conventions.
+	 *
+	 * @type string
+	 * @note This is not the same as the option group. This value will be stored in the database.
 	 */
 	const OPTION_NAME = null;
+
+	/**
+	 * Default value for the option.
+	 *
+	 * @type array
+	 */
 	const DEFAULT = array();
 
+	/**
+	 * Whether to show the option in the REST API.
+	 *
+	 * @type bool
+	 */
 	const SHOW_IN_REST = false;
 
 	/**
@@ -48,21 +68,6 @@ abstract class Settings implements Settings_API, Settings_Rules, Settings_Field_
 		 * Hook into the option's lifecycle.
 		 */
 		static::manage_option_lifecycle( static::OPTION_NAME );
-	}
-
-	/**
-	 * Returns single option
-	 *
-	 * @param string|null $id
-	 * @param mixed|false $default_value
-	 *
-	 * @return mixed
-	 */
-	final static function get_option( string $id = null, mixed $default_value = false ): mixed {
-
-		$option = get_option( static::OPTION_NAME );
-
-		return is_null( $id ) ? $option ?? $default_value : $option[ $id ] ?? $default_value;
 	}
 
 	final static function register_setting( string $option_name, array $args = array() ): void {
