@@ -9,6 +9,8 @@ namespace Platonic\Framework\Settings\Trait;
  * It allows for the creation of settings pages associated with those menu items.
  *
  * @package Platonic\Framework\Settings\Trait
+ *
+ * @since 1.0.0
  */
 trait Menu_Page_Handler {
 

@@ -2,6 +2,15 @@
 
 namespace Platonic\Framework\Settings\Trait;
 
+/**
+ * Trait Options_API_Wrapper
+ *
+ * This trait provides a wrapper for the WordPress Options API.
+ *
+ * @package Platonic\Framework\Settings\Trait
+ *
+ * @since 1.0.0
+ */
 trait Options_API_Wrapper {
 
 	/**
