@@ -8,4 +8,6 @@ interface Settings_Rules {
 
 	static function register(): void;
 
+	static function sanitize_callback( mixed $value ): mixed;
+
 }
