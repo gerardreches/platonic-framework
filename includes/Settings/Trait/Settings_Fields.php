@@ -2,13 +2,47 @@
 
 namespace Platonic\Framework\Settings\Trait;
 
+/**
+ * Trait Settings_Fields
+ *
+ * This trait provides a collection of callbacks for your add_settings_field() calls.
+ *
+ * All methods are public and static, so you can call them directly from anywhere.
+ *
+ * You can override each field callback to customize the output if you wish
+ *
+ * @package Platonic\Framework\Settings\Trait
+ *
+ * @since 1.0.0
+ */
 trait Settings_Fields {
+
 	/**
 	 * Call the necessary function to output the field depending on its type, and output a description if set.
 	 *
 	 * @param array $args
 	 */
 	final static function add_settings_field_callback( array $args ): void {
+		if ( empty( $args['type'] ) ) {
+			_doing_it_wrong(
+				function_name: __METHOD__,
+				message: __( "The field type is missing. Remember to set the 'type' argument.", 'platonic-framework' ),
+				version: '1.0'
+			);
+
+			return;
+		}
+
+		if ( ! is_callable( array( static::class, 'add_' . $args['type'] . '_field_callback' ) ) ) {
+			_doing_it_wrong(
+				function_name: __METHOD__,
+				message: sprintf( __( "The field type %s is not supported. Remember to set the 'type' argument to a valid field type.", 'platonic-framework' ), $args['type'] ),
+				version: '1.0'
+			);
+
+			return;
+		}
+
 		call_user_func( array( static::class, 'add_' . $args['type'] . '_field_callback' ), $args );
 
 		if ( ! empty( $args['description'] ) ) {
@@ -85,7 +119,7 @@ trait Settings_Fields {
 	 * @param array $args
 	 */
 	static function add_color_field_callback( array $args ): void {
-		echo "<input id='{$args['id']}' type='text' name='{$args['name']}' class='wp-color-picker-field {$args['class']}' value='{$args['value']}'>";
+		echo "<input id='{$args['id']}' type='text' name='{$args['name']}' class='color-picker {$args['class']}' value='{$args['value']}'>";
 	}
 
 	/**
@@ -101,15 +135,22 @@ trait Settings_Fields {
 	}
 
 	/**
-	 * Output a file selector field that uses WordPress' native Media Library.
+	 * Output a file selector field that uses the WordPress Media Library.
 	 *
 	 * @param array $args
 	 */
 	static function add_file_field_callback( array $args ): void {
-		echo "<img class='media-preview' src='{$args['value']}' alt='", __( 'No image selected', 'platonic-framework' ), "' style='display:block;height:auto;width:auto;max-height:100px;margin-bottom: 0.25rem;'>";
-		echo "<input type='hidden' name='{$args['name']}' id='{$args['id']}' class='regular-text media-url' value='{$args['value']}'>";
-		echo "<input type='button' class='button media-browse' value='", __( 'Upload image', 'platonic-framework' ), "'>";
-		echo "<input type='button' class='button media-clear' value='", __( 'Clear', 'platonic-framework' ), "' style='margin-left: 0.25rem;'>";
+		echo "<fieldset class='media-field {$args['class']}'>";
+
+		echo "<img class='media-preview' src='{$args['value']}' alt='", __( 'No image selected', 'platonic-framework' ), "' onload='this.classList.remove(\"hidden\");' onerror='this.classList.add(\"hidden\");' style='max-height:96px;max-width:100%;margin-bottom: 4px;' loading='lazy' decoding='async'>";
+
+		echo "<input type='url' class='media-url regular-text' value='{$args['value']}' disabled style='display:block;margin-bottom:4px;'>";
+		echo "<input type='hidden' name='{$args['name']}' class='media-url' value='{$args['value']}'>";
+
+		echo "<input type='button' id='{$args['id']}' class='button upload-button button-add-media' value='", __( 'Upload', 'platonic-framework' ), "'>";
+		echo "<input type='button' class='button clear-button button-clear-media hidden' value='", __( 'Clear', 'platonic-framework' ), "' style='margin-left: 0.25rem;'>";
+
+		echo "</fieldset>";
 	}
 
 	/**
@@ -118,6 +159,24 @@ trait Settings_Fields {
 	 * @param array $args
 	 */
 	static function add_radio_field_callback( array $args ): void {
+		if ( empty( $args['options'] ) ) {
+			_doing_it_wrong(
+				function_name: __METHOD__,
+				message: __( "The 'options' argument is missing or empty. Remember to set the 'options' argument.", 'platonic-framework' ),
+				version: '1.0'
+			);
+
+			return;
+		}
+
+		if ( array_keys( $args['options'] ) === range( 0, count( $args['options'] ) - 1 ) ) {
+			_doing_it_wrong(
+				function_name: __METHOD__,
+				message: __( "The 'options' argument is an indexed array. Remember to set the 'options' argument as an associative array: \$value => \$label.", 'platonic-framework' ),
+				version: '1.0'
+			);
+		}
+
 		echo "<fieldset>";
 
 		foreach ( $args['options'] as $value => $label ) {
@@ -125,6 +184,7 @@ trait Settings_Fields {
 			echo "<input id='{$args['id']}[{$value}]' type='{$args['type']}' name='{$args['name']}' class='{$args['class']}' value='{$value}' {$selected_radio}>";
 			echo "<label for='{$args['id']}[{$value}]' >{$label}</label><br>";
 		}
+
 		echo "</fieldset>";
 	}
 
@@ -134,12 +194,29 @@ trait Settings_Fields {
 	 * @param array $args
 	 */
 	static function add_select_field_callback( array $args ): void {
+		if ( empty( $args['options'] ) ) {
+			_doing_it_wrong(
+				function_name: __METHOD__,
+				message: __( "The 'options' argument is missing or empty. Remember to set the 'options' argument.", 'platonic-framework' ),
+				version: '1.0'
+			);
+		}
+
+		if ( array_keys( $args['options'] ) === range( 0, count( $args['options'] ) - 1 ) ) {
+			_doing_it_wrong(
+				function_name: __METHOD__,
+				message: __( "The 'options' argument is an indexed array. Remember to set the 'options' argument as an associative array: \$value => \$label.", 'platonic-framework' ),
+				version: '1.0'
+			);
+		}
+
 		echo "<select id='{$args['id']}' name='{$args['name']}' class='{$args['class']}'>";
 
 		foreach ( $args['options'] as $value => $label ) {
 			$selected = selected( $value, $args['value'], false );
 			echo "<option value='{$value}' {$selected}>{$label}</option>";
 		}
+
 		echo "</select>";
 	}
 }
