@@ -2,16 +2,17 @@
 
 namespace Platonic\Framework\Settings;
 
-use Platonic\Framework\Settings\Interface\Settings_API;
-use Platonic\Framework\Settings\Interface\Settings_Field_Callback;
+use Platonic\Framework\Settings\Interface\Settings_Fields_Callbacks;
 use Platonic\Framework\Settings\Interface\Settings_Rules;
 use Platonic\Framework\Settings\Trait\Options_API_Wrapper;
+use Platonic\Framework\Settings\Trait\Settings_API_Wrapper;
 use Platonic\Framework\Settings\Trait\Settings_Fields;
 use Platonic\Framework\Settings\Trait\Sanitization;
 use Platonic\Framework\Settings\Trait\Option_Lifecycle_Manager;
 
-abstract class Settings implements Settings_API, Settings_Rules, Settings_Field_Callback {
+abstract class Settings implements Settings_Rules, Settings_Fields_Callbacks {
 
+	use Settings_API_Wrapper;
 	use Options_API_Wrapper;
 	use Option_Lifecycle_Manager;
 	use Settings_Fields;
@@ -70,34 +71,6 @@ abstract class Settings implements Settings_API, Settings_Rules, Settings_Field_
 		static::manage_option_lifecycle( static::OPTION_NAME );
 	}
 
-	final static function register_setting( string $option_name, array $args = array() ): void {
-
-		if ( array_key_exists( $option_name, get_registered_settings() ) ) {
-			add_settings_error( $option_name, 'duplicated', "Setting <em>{$option_name}</em> is being registered twice. This may cause unexpected issues. Check your error log for more details.", 'warning' );
-			error_log( "Class " . static::class . " is registering a setting named {$option_name} which was already registered. The setting arguments will be overwritten, which may lead to unexpected issues. Please, consider registering a setting with a different name." );
-		}
-
-		register_setting(
-			option_group: static::OPTION_GROUP ?? static::OPTION_NAME,
-			option_name: $option_name,
-			args: array_merge(
-				array(
-					'sanitize_callback' => array( static::class, 'sanitize_callback' ),
-					'show_in_rest'      => static::SHOW_IN_REST
-				),
-				$args
-			)
-		);
-	}
-
-	static function unregister_setting( string $option_name = null, callable $deprecated = null ): void {
-		unregister_setting(
-			option_group: static::OPTION_GROUP ?? static::OPTION_NAME,
-			option_name: $option_name ?? static::OPTION_NAME,
-			deprecated: $deprecated ?: ''
-		);
-	}
-
 	/**
 	 * Register the settings
 	 *
@@ -115,79 +88,6 @@ abstract class Settings implements Settings_API, Settings_Rules, Settings_Field_
 		);
 
 		static::add_settings( static::OPTION_NAME, static::DEFAULT );
-	}
-
-	/**
-	 * @param string $id Slug-name to identify the section. Used in the 'id' attribute of tags.
-	 * @param string $title Formatted title of the section. Shown as the heading for the section.
-	 * @param string|null $description Formatted description of the section. Shown as paragraph under the title.
-	 * @param array $args Arguments used to create the settings section.
-	 *
-	 * @return string
-	 */
-	final static function add_settings_section( string $id, string $title, string $description = null, array $args = array() ): string {
-		add_settings_section(
-			id: $id,
-			title: $title,
-			callback: $args['callback'] ?? function ( $args ) use ( $description ) {
-			echo $description ?? '';
-		},
-			page: static::class,
-			args: $args
-		);
-
-		return $id;
-	}
-
-	/**
-	 * Add a new field to a section of a settings page.
-	 *
-	 * Part of the Settings API. Use this to define a settings field that will show
-	 * as part of a settings section inside a settings page. The fields are shown using
-	 * do_settings_fields() in do_settings_sections()
-	 *
-	 * @param string $id Slug-name to identify the field. Used in the 'id' attribute of tags.
-	 * @param string $type The type of field.
-	 * @param string $title Formatted title for the field. Shown as the label for the field
-	 *                           during output.
-	 * @param string $description Formatted description for the field. Shown under the field
-	 *                           during output.
-	 * @param string $section Optional. The slug-name of the section of the settings page
-	 *                           in which to show the box. Default 'default'.
-	 * @param array $args {
-	 *     Optional. Extra arguments used when outputting the field.
-	 *
-	 * @return string
-	 */
-	final static function add_settings_field( string $id, string $type, string $title, string $description = '', string $section = 'default', array $args = array() ): string {
-		add_settings_field(
-			id: $id,
-			title: $title,
-			callback: $args['callback'] ?? array( static::class, 'add_settings_field_callback' ),
-			page: static::class,
-			section: $section,
-			args: array_merge(
-				array(
-					'label_for'   => $id,
-					'description' => $description,
-					'id'          => $id,
-					'name'        => static::OPTION_NAME ? static::OPTION_NAME . "[{$id}]" : $id,
-					'type'        => $type,
-					'value'       => get_option( static::OPTION_NAME )[ $id ] ?? null,
-					'default'     => null,
-					'class'       => null,
-					'placeholder' => null,
-					'rows'        => 10,
-					'cols'        => 50,
-					'min'         => null,
-					'max'         => null,
-					'step'        => 1,
-				),
-				$args
-			)
-		);
-
-		return $id;
 	}
 
 	/**

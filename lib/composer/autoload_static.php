@@ -28,7 +28,8 @@ class ComposerStaticInitef637136d5fae12e96d0c7e8c829c969
         'Platonic\\Framework\\Settings\\Example\\Settings_Page_Example' => __DIR__ . '/../..' . '/includes/Settings/Example/Settings_Page_Example.php',
         'Platonic\\Framework\\Settings\\Example\\Theme_Settings_Page' => __DIR__ . '/../..' . '/includes/Settings/Example/Theme_Settings_Page.php',
         'Platonic\\Framework\\Settings\\Interface\\Plugin_Settings_Page_Rules' => __DIR__ . '/../..' . '/includes/Settings/Interface/Plugin_Settings_Page_Rules.php',
-        'Platonic\\Framework\\Settings\\Interface\\Settings_Field_Callback' => __DIR__ . '/../..' . '/includes/Settings/Interface/Settings_Field_Callback.php',
+        'Platonic\\Framework\\Settings\\Interface\\Settings_API' => __DIR__ . '/../..' . '/includes/Settings/Interface/Settings_API.php',
+        'Platonic\\Framework\\Settings\\Interface\\Settings_Fields_Callbacks' => __DIR__ . '/../..' . '/includes/Settings/Interface/Settings_Fields_Callbacks.php',
         'Platonic\\Framework\\Settings\\Interface\\Settings_Page_Rules' => __DIR__ . '/../..' . '/includes/Settings/Interface/Settings_Page_Rules.php',
         'Platonic\\Framework\\Settings\\Interface\\Settings_Rules' => __DIR__ . '/../..' . '/includes/Settings/Interface/Settings_Rules.php',
         'Platonic\\Framework\\Settings\\Interface\\Theme_Settings_Page_Rules' => __DIR__ . '/../..' . '/includes/Settings/Interface/Theme_Settings_Page_Rules.php',
@@ -38,7 +39,9 @@ class ComposerStaticInitef637136d5fae12e96d0c7e8c829c969
         'Platonic\\Framework\\Settings\\Theme_Settings' => __DIR__ . '/../..' . '/includes/Settings/Theme_Settings.php',
         'Platonic\\Framework\\Settings\\Trait\\Menu_Page_Handler' => __DIR__ . '/../..' . '/includes/Settings/Trait/Menu_Page_Handler.php',
         'Platonic\\Framework\\Settings\\Trait\\Option_Lifecycle_Manager' => __DIR__ . '/../..' . '/includes/Settings/Trait/Option_Lifecycle_Manager.php',
+        'Platonic\\Framework\\Settings\\Trait\\Options_API_Wrapper' => __DIR__ . '/../..' . '/includes/Settings/Trait/Options_API_Wrapper.php',
         'Platonic\\Framework\\Settings\\Trait\\Sanitization' => __DIR__ . '/../..' . '/includes/Settings/Trait/Sanitization.php',
+        'Platonic\\Framework\\Settings\\Trait\\Settings_API_Wrapper' => __DIR__ . '/../..' . '/includes/Settings/Trait/Settings_API_Wrapper.php',
         'Platonic\\Framework\\Settings\\Trait\\Settings_Fields' => __DIR__ . '/../..' . '/includes/Settings/Trait/Settings_Fields.php',
     );
 

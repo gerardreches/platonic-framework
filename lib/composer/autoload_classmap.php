@@ -13,7 +13,8 @@ return array(
     'Platonic\\Framework\\Settings\\Example\\Settings_Page_Example' => $baseDir . '/includes/Settings/Example/Settings_Page_Example.php',
     'Platonic\\Framework\\Settings\\Example\\Theme_Settings_Page' => $baseDir . '/includes/Settings/Example/Theme_Settings_Page.php',
     'Platonic\\Framework\\Settings\\Interface\\Plugin_Settings_Page_Rules' => $baseDir . '/includes/Settings/Interface/Plugin_Settings_Page_Rules.php',
-    'Platonic\\Framework\\Settings\\Interface\\Settings_Field_Callback' => $baseDir . '/includes/Settings/Interface/Settings_Field_Callback.php',
+    'Platonic\\Framework\\Settings\\Interface\\Settings_API' => $baseDir . '/includes/Settings/Interface/Settings_API.php',
+    'Platonic\\Framework\\Settings\\Interface\\Settings_Fields_Callbacks' => $baseDir . '/includes/Settings/Interface/Settings_Fields_Callbacks.php',
     'Platonic\\Framework\\Settings\\Interface\\Settings_Page_Rules' => $baseDir . '/includes/Settings/Interface/Settings_Page_Rules.php',
     'Platonic\\Framework\\Settings\\Interface\\Settings_Rules' => $baseDir . '/includes/Settings/Interface/Settings_Rules.php',
     'Platonic\\Framework\\Settings\\Interface\\Theme_Settings_Page_Rules' => $baseDir . '/includes/Settings/Interface/Theme_Settings_Page_Rules.php',
@@ -23,6 +24,8 @@ return array(
     'Platonic\\Framework\\Settings\\Theme_Settings' => $baseDir . '/includes/Settings/Theme_Settings.php',
     'Platonic\\Framework\\Settings\\Trait\\Menu_Page_Handler' => $baseDir . '/includes/Settings/Trait/Menu_Page_Handler.php',
     'Platonic\\Framework\\Settings\\Trait\\Option_Lifecycle_Manager' => $baseDir . '/includes/Settings/Trait/Option_Lifecycle_Manager.php',
+    'Platonic\\Framework\\Settings\\Trait\\Options_API_Wrapper' => $baseDir . '/includes/Settings/Trait/Options_API_Wrapper.php',
     'Platonic\\Framework\\Settings\\Trait\\Sanitization' => $baseDir . '/includes/Settings/Trait/Sanitization.php',
+    'Platonic\\Framework\\Settings\\Trait\\Settings_API_Wrapper' => $baseDir . '/includes/Settings/Trait/Settings_API_Wrapper.php',
     'Platonic\\Framework\\Settings\\Trait\\Settings_Fields' => $baseDir . '/includes/Settings/Trait/Settings_Fields.php',
 );
