@@ -168,10 +168,10 @@ trait Sanitization {
 	 *
 	 * @param mixed $value The number value to be sanitized.
 	 *
-	 * @return int The sanitized number value.
+	 * @return int|null The sanitized number value.
 	 */
-	static function sanitize_number( mixed $value ): int {
-		return (int) sanitize_text_field( $value );
+	static function sanitize_number( mixed $value ): int|null {
+		return $value === '' ? null : (int) sanitize_text_field( $value );
 	}
 
 	/**
