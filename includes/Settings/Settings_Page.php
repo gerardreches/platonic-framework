@@ -54,7 +54,9 @@ abstract class Settings_Page extends Settings implements Settings_Page_Rules {
 		 * @note Script is being added inline to avoid issues when the directory is a symlink. PHP doesn't have methods to retrieve the unresolved path.
          * @see https://bugs.php.net/bug.php?id=42516
 		 */
-		wp_add_inline_script( 'jquery', file_get_contents( trailingslashit( dirname( __FILE__ ) ) . 'wp-media-frame.js' ), 'after' );
+        if ( apply_filters( 'platonic_framework_add_media_script', true ) ){
+		    wp_add_inline_script( 'jquery', file_get_contents( trailingslashit( dirname( __FILE__ ) ) . 'wp-media-frame.js' ), 'after' );
+        }
 	}
 
 	final static function settings_fields(): void {
