@@ -29,15 +29,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 //No need to proceed if Platonic already exists.
-if ( class_exists( \Platonic\Framework\Settings\Settings::class ) ) {
+if ( class_exists( \Platonic\Framework\Settings\Settings_Page::class ) ) {
 	return;
 }
 
-/**
- * When using the Platonic Framework as a library, if any symlinks exist affecting the framework
- * then the constant PLATONIC_FRAMEWORK_PLUGIN_DIR must be defined in your plugin or theme using
- * the right path in order for the framework to enqueue its scripts successfully.
- */
 if ( ! defined( 'PLATONIC_FRAMEWORK_PLUGIN_DIR' ) ) {
 	define( 'PLATONIC_FRAMEWORK_PLUGIN_DIR', __DIR__ );
 }
@@ -50,13 +45,34 @@ if ( ! defined( 'PLATONIC_FRAMEWORK_PLUGIN_BASENAME' ) ) {
 	define( 'PLATONIC_FRAMEWORK_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 }
 
-function load_platonic_framework_textdomain (): void {
+if ( ! defined( 'PLATONIC_FRAMEWORK_DEBUG_MODE' ) ) {
+	define( 'PLATONIC_FRAMEWORK_DEBUG_MODE', false );
+}
+
+function platonic_framework_load_textdomain(): void {
 	load_plugin_textdomain(
 		'platonic-framework',
 		false,
-		dirname( PLATONIC_FRAMEWORK_PLUGIN_BASENAME ) . '/languages/'
+		trailingslashit( dirname( PLATONIC_FRAMEWORK_PLUGIN_BASENAME ) ) . 'languages/'
 	);
 }
-add_action( 'plugins_loaded', 'load_platonic_framework_textdomain' );
 
-require_once( plugin_dir_path( __FILE__ ) . '/lib/autoload.php' );
+add_action( 'plugins_loaded', 'platonic_framework_load_textdomain' );
+
+require_once( trailingslashit( plugin_dir_path( __FILE__ ) ) . 'lib/autoload.php' );
+
+/**
+ * Receive updates from GitHub.
+ */
+
+function platonic_framework_check_for_updates(): void {
+	require_once( trailingslashit( plugin_dir_path( __FILE__ ) ) . 'lib/plugin-update-checker-5.3/plugin-update-checker.php' );
+
+	$myUpdateChecker = YahnisElsts\PluginUpdateChecker\v5\PucFactory::buildUpdateChecker(
+		'https://github.com/gerardreches/platonic-framework',
+		PLATONIC_FRAMEWORK_PLUGIN_FILE,
+		'platonic-framework'
+	);
+}
+
+add_action( 'admin_init', 'platonic_framework_check_for_updates' );
