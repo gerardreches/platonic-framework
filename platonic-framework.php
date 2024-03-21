@@ -11,7 +11,7 @@
  * Plugin Name:       Platonic Framework
  * Plugin URI:        https://gerardreches.com
  * Description:       WordPress Framework for the Settings API and Customizer API
- * Version:           1.0.0
+ * Version:           1.1.0
  * Requires at least: 5.2
  * Requires PHP:      8.0
  * Author:            Gerard Reches
@@ -28,7 +28,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-//No need to proceed if Platonic already exists.
+// No need to proceed if Platonic already exists.
 if ( class_exists( \Platonic\Framework\Settings\Settings_Page::class ) ) {
 	return;
 }

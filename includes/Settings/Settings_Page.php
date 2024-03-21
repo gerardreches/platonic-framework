@@ -19,10 +19,10 @@ abstract class Settings_Page extends Settings implements Settings_Page_Rules {
 	const DISABLE_SETTINGS_ERRORS = false;
 
 	/**
-	 * Settings class constructor.
+	 * Initialize Settings_Page class.
 	 */
-	public function __construct() {
-		parent::__construct();
+	public static function initialize(): void {
+		parent::initialize();
 
 		add_action( 'admin_menu', array( static::class, 'add_admin_menu' ) );
 
@@ -48,15 +48,15 @@ abstract class Settings_Page extends Settings implements Settings_Page_Rules {
 		wp_add_inline_script( 'wp-color-picker', 'jQuery(".color-picker").wpColorPicker();', 'after' );
 
 		/**
-         * Implement the admin media model for any defined file fields.
-         * @see https://codex.wordpress.org/Javascript_Reference/wp.media
-         *
+		 * Implement the admin media model for any defined file fields.
+		 * @see https://codex.wordpress.org/Javascript_Reference/wp.media
+		 *
 		 * @note Script is being added inline to avoid issues when the directory is a symlink. PHP doesn't have methods to retrieve the unresolved path.
-         * @see https://bugs.php.net/bug.php?id=42516
+		 * @see https://bugs.php.net/bug.php?id=42516
 		 */
-        if ( apply_filters( 'platonic_framework_add_media_script', true ) ){
-		    wp_add_inline_script( 'jquery', file_get_contents( trailingslashit( dirname( __FILE__ ) ) . 'wp-media-frame.js' ), 'after' );
-        }
+		if ( apply_filters( 'platonic_framework_add_media_script', true ) ) {
+			wp_add_inline_script( 'jquery', file_get_contents( trailingslashit( dirname( __FILE__ ) ) . 'wp-media-frame.js' ), 'after' );
+		}
 	}
 
 	final static function settings_fields(): void {

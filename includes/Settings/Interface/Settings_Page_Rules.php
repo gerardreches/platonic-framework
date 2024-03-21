@@ -4,7 +4,7 @@ namespace Platonic\Framework\Settings\Interface;
 
 interface Settings_Page_Rules extends Settings_Rules {
 
-	public function __construct();
+	public static function initialize();
 
 	static function enqueue_admin_scripts( string $hook_suffix ): void;
 

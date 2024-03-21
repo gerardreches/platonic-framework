@@ -4,7 +4,7 @@ namespace Platonic\Framework\Settings\Interface;
 
 interface Settings_Rules {
 
-	public function __construct();
+	public static function initialize();
 
 	static function register(): void;
 

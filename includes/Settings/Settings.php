@@ -4,11 +4,11 @@ namespace Platonic\Framework\Settings;
 
 use Platonic\Framework\Settings\Interface\Settings_Fields_Callbacks;
 use Platonic\Framework\Settings\Interface\Settings_Rules;
+use Platonic\Framework\Settings\Trait\Option_Lifecycle_Manager;
 use Platonic\Framework\Settings\Trait\Options_API_Wrapper;
+use Platonic\Framework\Settings\Trait\Sanitization;
 use Platonic\Framework\Settings\Trait\Settings_API_Wrapper;
 use Platonic\Framework\Settings\Trait\Settings_Fields;
-use Platonic\Framework\Settings\Trait\Sanitization;
-use Platonic\Framework\Settings\Trait\Option_Lifecycle_Manager;
 
 abstract class Settings implements Settings_Rules, Settings_Fields_Callbacks {
 
@@ -52,10 +52,11 @@ abstract class Settings implements Settings_Rules, Settings_Fields_Callbacks {
 	const SHOW_IN_REST = false;
 
 	/**
-	 * Settings class constructor.
+	 * Initialize the Settings class.
+	 *
+	 * @return void
 	 */
-	public function __construct() {
-
+	public static function initialize(): void {
 		if ( empty( static::OPTION_NAME ) || ! is_string( static::OPTION_NAME ) ) {
 			_doing_it_wrong( __METHOD__, __( "The constant OPTION_NAME has to be set as a non-empty string. Remember to use a unique name to avoid conflicts.", 'platonic-framework' ), '1.0' );
 		}
