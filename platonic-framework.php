@@ -50,14 +50,13 @@ if ( ! defined( 'PLATONIC_FRAMEWORK_DEBUG_MODE' ) ) {
 }
 
 function platonic_framework_load_textdomain(): void {
-	load_plugin_textdomain(
-		'platonic-framework',
-		false,
-		trailingslashit( dirname( PLATONIC_FRAMEWORK_PLUGIN_BASENAME ) ) . 'languages/'
-	);
+    load_plugin_textdomain(
+        'platonic-framework',
+        false,
+        trailingslashit( dirname( PLATONIC_FRAMEWORK_PLUGIN_BASENAME ) ) . 'languages/'
+    );
 }
-
-add_action( 'plugins_loaded', 'platonic_framework_load_textdomain' );
+add_action( 'init', 'platonic_framework_load_textdomain' );
 
 require_once( trailingslashit( plugin_dir_path( __FILE__ ) ) . 'lib/autoload.php' );
 
