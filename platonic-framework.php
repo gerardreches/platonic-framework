@@ -65,7 +65,7 @@ require_once( trailingslashit( plugin_dir_path( __FILE__ ) ) . 'lib/autoload.php
  */
 
 function platonic_framework_check_for_updates(): void {
-	require_once( trailingslashit( plugin_dir_path( __FILE__ ) ) . 'lib/plugin-update-checker-5.3/plugin-update-checker.php' );
+	require_once( trailingslashit( plugin_dir_path( __FILE__ ) ) . 'lib/plugin-update-checker-5.6/plugin-update-checker.php' );
 
 	$myUpdateChecker = YahnisElsts\PluginUpdateChecker\v5\PucFactory::buildUpdateChecker(
 		'https://github.com/gerardreches/platonic-framework',
